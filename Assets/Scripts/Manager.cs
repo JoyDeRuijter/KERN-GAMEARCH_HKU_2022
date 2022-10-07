@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+public enum TileType {PATH, WALL}
+
 public class Manager : MonoBehaviour
 {
 
@@ -34,6 +36,29 @@ public class Manager : MonoBehaviour
     private void Update()
     {
         
+    }
+
+}
+    private void GenerateLevel()
+    {
+
+        try
+        {
+            using(StreamReader sr = new StreamReader("Assets/Scripts/TestMap.tsv"))
+            {
+                string line;
+                while((line = sr.ReadLine()) != null)
+                {
+                    Debug.Log(line);
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            Debug.Log("The file could not be read: ");
+            Debug.Log(e.Message);
+        }
+
     }
 
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class LevelGenerator
 {
-
+    public Vector2Int levelSize;
     public LevelGenerator() {}
 
     public Dictionary<Vector3Int,Tile> Generate(string _map)
@@ -32,6 +32,7 @@ public class LevelGenerator
                 {
                     List<string> values = new List<string>();
                     values.AddRange(lines[i].Split("\t"));
+
                     for(int j = 2; j < values.Count; j++)
                     {
                         if(values[j] == "0")
@@ -46,10 +47,9 @@ public class LevelGenerator
                             level.Add(new Vector3Int(i,0,j),T);
                             T.Initialize();
                         }
-
                     }
                 }
-
+                levelSize = GetLevelSize(lines);
             }
         }
         catch(Exception e)
@@ -62,4 +62,9 @@ public class LevelGenerator
 
     }
 
+    private Vector2Int GetLevelSize(List<string> _lines)
+    {
+        string[] values = _lines[1].Split("\t");
+        return new Vector2Int(Int32.Parse(values[0]), Int32.Parse(values[1]));
+    }
 }

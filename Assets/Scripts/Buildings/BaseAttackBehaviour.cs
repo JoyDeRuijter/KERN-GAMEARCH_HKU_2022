@@ -2,31 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseAttackBehaviour
+public abstract class BaseAttackBehaviour
 {
-    float damage;
-    float fireRate;
-    float attackRange;
+    public float damage;
+    public float fireRate;
+    public Transform towerTransform;
 
-    //Stack of enemies to detect within range
-    //Stack<Enemy> enemies;
-
-    BaseAttackBehaviour(float _damage, float _fireRate, float _attackRange)
+    public virtual void Attack(EnemyController _target)
     {
-        damage = _damage;
-        fireRate = _fireRate;
-        attackRange = _attackRange;
+        float timeLeft = fireRate;
+        timeLeft -= Time.deltaTime;
+        if (timeLeft <= 0)
+        {
+            _target.TakeDamage(damage);
+            SpawnParticles();
+        }
     }
-
-    void RangeCheck()
-    {
-        //cycle through enemies
-        //if is within range do attack
-        //Attack();
-    }
-
-    public virtual void Attack()
-    {
-
-    }
+    public abstract void SpawnParticles();
 }

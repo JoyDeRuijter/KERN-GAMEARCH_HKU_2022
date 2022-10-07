@@ -13,5 +13,4 @@ public class BuildCommand : ICommand
         // Execute build action
         builder.BuildBuilding();
     }
-
 }

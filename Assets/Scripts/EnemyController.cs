@@ -15,4 +15,6 @@ public class EnemyController : MonoBehaviour
     {
         
     }
+
+    public void TakeDamage(float _dmg) {}
 }

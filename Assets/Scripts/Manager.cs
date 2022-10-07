@@ -21,11 +21,14 @@ public class Manager : MonoBehaviour
     private Transform mainCamera;
 
     private LevelGenerator generator = new LevelGenerator();
+    private BuildingManager buildingManager = new BuildingManager();
 
     private void Awake()
     {
         if(Instance != null && Instance != this) Destroy(this);
         else Instance = this;
+
+        buildingManager.OnAwake();
     }
 
     private void Start()
@@ -33,11 +36,13 @@ public class Manager : MonoBehaviour
         level = generator.Generate(levelPath);
         SetCameraPosition();
         Debug.Log(level.Count);
+
+        buildingManager.OnStart();
     }
 
     private void Update()
     {
-        
+        buildingManager.OnUpdate();
     }
 
     private void SetCameraPosition()

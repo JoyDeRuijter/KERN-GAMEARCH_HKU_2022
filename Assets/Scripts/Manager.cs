@@ -11,7 +11,15 @@ public class Manager : MonoBehaviour
 
     public static Manager Instance { get; private set;}
 
-    public Dictionary<Vector3Int, TileType> level = new Dictionary<Vector3Int, TileType>();
+    public Dictionary<Vector3Int, Tile> level = new Dictionary<Vector3Int, Tile>();
+
+    public GameObject pathPrefab;
+    public GameObject wallPrefab;
+
+    [SerializeField]
+    private string levelPath;
+
+    private LevelGenerator generator = new LevelGenerator();
 
     private void Awake()
     {
@@ -21,7 +29,8 @@ public class Manager : MonoBehaviour
 
     private void Start()
     {
-        GenerateLevel();
+        level = generator.Generate(levelPath);
+        Debug.Log(level.Count);
     }
 
     private void Update()
@@ -29,6 +38,7 @@ public class Manager : MonoBehaviour
         
     }
 
+}
     private void GenerateLevel()
     {
 

@@ -152,6 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7db3fab4658fd144b958f3292ca7ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pathPrefab: {fileID: 4999248340084563991, guid: 121a3f84350ce8d4bab876a202db4b86, type: 3}
+  wallPrefab: {fileID: 7047502295460344836, guid: 255846a0f88ae82429eb5f94e6a8f40e, type: 3}
+  levelPath: Assets/Maps/TestMap.tsv
 --- !u!4 &481761044
 Transform:
   m_ObjectHideFlags: 0

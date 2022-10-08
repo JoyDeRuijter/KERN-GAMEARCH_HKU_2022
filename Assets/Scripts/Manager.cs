@@ -16,7 +16,7 @@ public class Manager : MonoBehaviour
     public GameObject wallPrefab;
     public GameObject enemyPrefab;
 
-    private EnemyController enemy = new EnemyController(new Vector3Int(2,0,0),new Vector3Int(9,0,6),3);
+    private EnemyManager enemies = new EnemyManager(3);
 
     [SerializeField] private string levelPath;
 
@@ -42,9 +42,9 @@ public class Manager : MonoBehaviour
         if(Instance != null && Instance != this) Destroy(this);
         else Instance = this;
 
-
-    buildingManager.OnAwake();
+        buildingManager.OnAwake();
         keyBinder = new KeyBinder(buildingManager, inputHandler, buildKey, upgradeKey, destroyKey, undoKey);
+
     }
 
     private void Start()
@@ -56,7 +56,7 @@ public class Manager : MonoBehaviour
         Debug.Log(level.Count);
 
         buildingManager.OnStart(generator.levelSize);
-        enemy.OnStart();
+        enemies.OnStart();
     }
 
     private void Update()
@@ -65,6 +65,8 @@ public class Manager : MonoBehaviour
         enemy.OnUpdate();
         buildingManager.OnUpdate();
         inputHandler.HandleInput();
+        enemies.OnUpdate();
+
     }
 
     private void SetCameraPosition()

@@ -10,7 +10,11 @@ public class EnemyManager
 
     private List<Vector3Int> waypoints = new List<Vector3Int>() {
         new Vector3Int(2,0,0),
-        new Vector3Int(9,0,6)
+        new Vector3Int(9,0,10),
+        new Vector3Int(1,0,7),
+        new Vector3Int(4,0,14),
+        new Vector3Int(9,0,19),
+        new Vector3Int(3,0,23)
     };
 
     private int enemyAmount;
@@ -21,7 +25,7 @@ public class EnemyManager
 
         for(int i = 0; i < _amount; i++)
         {
-            EnemyController e = new EnemyController(new Vector3(2,0,-1-i),waypoints,3,this);
+            EnemyController e = new EnemyController(new Vector3(2,0,-1-i),waypoints,4,this);
             inactivePool.Add(e);
         }
     }
@@ -54,6 +58,16 @@ public class EnemyManager
         {
             activePool[i].OnUpdate();
         }
+    }
+
+    public void StartAttack()
+    {
+        Debug.Log("Started");
+        foreach(EnemyController e in inactivePool)
+        {
+            activePool.Add(e);
+        }
+        inactivePool.Clear();
     }
 
     public void ReturnToPool(EnemyController _e)

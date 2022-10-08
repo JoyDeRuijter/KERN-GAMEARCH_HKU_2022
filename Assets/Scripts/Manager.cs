@@ -16,7 +16,7 @@ public class Manager : MonoBehaviour
     public GameObject wallPrefab;
     public GameObject enemyPrefab;
 
-    private EnemyManager enemies = new EnemyManager(3);
+    private EnemyManager enemyManager = new EnemyManager(3);
 
     [SerializeField] private string levelPath;
 
@@ -56,17 +56,15 @@ public class Manager : MonoBehaviour
         Debug.Log(level.Count);
 
         buildingManager.OnStart(generator.levelSize);
-        enemies.OnStart();
+        enemyManager.OnStart();
     }
 
     private void Update()
     {
         fsm.OnUpdate();
-        enemy.OnUpdate();
         buildingManager.OnUpdate();
         inputHandler.HandleInput();
-        enemies.OnUpdate();
-
+        enemyManager.OnUpdate();
     }
 
     private void SetCameraPosition()

@@ -37,14 +37,14 @@ public class LevelGenerator
                     {
                         if(values[j] == "0")
                         {
-                            Tile T = new Tile(new Vector3Int(i,0,j),TileType.WALL);
-                            level.Add(new Vector3Int(i,0,j),T);
+                            Tile T = new Tile(new Vector3Int(i-1,-1,j-2),TileType.WALL);
+                            level.Add(new Vector3Int(i-1,0,j-2),T);
                             T.Initialize();
                         }
                         else if(values[j] == "1")
                         {
-                            Tile T = new Tile(new Vector3Int(i,0,j),TileType.PATH);
-                            level.Add(new Vector3Int(i,0,j),T);
+                            Tile T = new Tile(new Vector3Int(i-1,-1,j-2),TileType.PATH);
+                            level.Add(new Vector3Int(i-1,0,j-2),T);
                             T.Initialize();
                         }
                     }

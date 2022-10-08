@@ -13,6 +13,9 @@ public class Manager : MonoBehaviour
 
     public GameObject pathPrefab;
     public GameObject wallPrefab;
+    public GameObject enemyPrefab;
+
+    private EnemyController enemy = new EnemyController(new Vector3Int(2,0,0),new Vector3Int(9,0,6),3);
 
     [SerializeField] private string levelPath;
 
@@ -46,10 +49,13 @@ public class Manager : MonoBehaviour
         Debug.Log(level.Count);
 
         buildingManager.OnStart();
+        enemy.OnStart();
     }
 
     private void Update()
     {
+
+        enemy.OnUpdate();
         buildingManager.OnUpdate();
         inputHandler.HandleInput();
     }

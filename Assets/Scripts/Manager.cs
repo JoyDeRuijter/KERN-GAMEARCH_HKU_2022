@@ -8,6 +8,7 @@ public class Manager : MonoBehaviour
 {
 
     public static Manager Instance { get; private set;}
+    private FiniteStateMachine fsm;
 
     public Dictionary<Vector3Int, Tile> level = new Dictionary<Vector3Int, Tile>();
 
@@ -41,12 +42,15 @@ public class Manager : MonoBehaviour
         if(Instance != null && Instance != this) Destroy(this);
         else Instance = this;
 
-        buildingManager.OnAwake();
+
+    buildingManager.OnAwake();
         keyBinder = new KeyBinder(buildingManager, inputHandler, buildKey, upgradeKey, destroyKey, undoKey);
     }
 
     private void Start()
     {
+        fsm = new FiniteStateMachine(typeof(StartState), GetComponents<BaseState>());
+
         level = generator.Generate(levelPath);
         SetCameraPosition();
         Debug.Log(level.Count);
@@ -57,7 +61,7 @@ public class Manager : MonoBehaviour
 
     private void Update()
     {
-
+        fsm.OnUpdate();
         enemy.OnUpdate();
         buildingManager.OnUpdate();
         inputHandler.HandleInput();

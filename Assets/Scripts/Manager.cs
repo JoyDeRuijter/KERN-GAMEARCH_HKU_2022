@@ -8,6 +8,7 @@ public class Manager : MonoBehaviour
 {
 
     public static Manager Instance { get; private set;}
+    private FiniteStateMachine fsm;
 
     public Dictionary<Vector3Int, Tile> level = new Dictionary<Vector3Int, Tile>();
 
@@ -41,31 +42,36 @@ public class Manager : MonoBehaviour
         if(Instance != null && Instance != this) Destroy(this);
         else Instance = this;
 
-        // buildingManager.OnAwake();
-        // keyBinder = new KeyBinder(buildingManager, inputHandler, buildKey, upgradeKey, destroyKey, undoKey);
+        buildingManager.OnAwake();
+        keyBinder = new KeyBinder(buildingManager, inputHandler, buildKey, upgradeKey, destroyKey, undoKey);
+
     }
 
     private void Start()
     {
-        level = generator.Generate(levelPath);
-        // SetCameraPosition();
-        // Debug.Log(level.Count);
+        fsm = new FiniteStateMachine(typeof(StartState), GetComponents<BaseState>());
 
-        // buildingManager.OnStart(generator.levelSize);
+        level = generator.Generate(levelPath);
+        SetCameraPosition();
+        Debug.Log(level.Count);
+
+        buildingManager.OnStart(generator.levelSize);
         enemies.OnStart();
     }
 
     private void Update()
     {
-
+        fsm.OnUpdate();
+        enemy.OnUpdate();
+        buildingManager.OnUpdate();
+        inputHandler.HandleInput();
         enemies.OnUpdate();
-        // buildingManager.OnUpdate();
-        // inputHandler.HandleInput();
+
     }
 
     private void SetCameraPosition()
     {
-        //mainCamera.position = new Vector3(generator.levelSize.y / 2, mainCamera.position.y, generator.levelSize.x / 2 + 1);
+        mainCamera.position = new Vector3(generator.levelSize.y / 2, mainCamera.position.y, generator.levelSize.x / 2 + 1);
     }
 
 }

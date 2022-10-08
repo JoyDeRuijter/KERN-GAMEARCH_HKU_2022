@@ -22,7 +22,6 @@ public class BuildingManager
     {
         InitializeBuilder();
         InitializeBuildings();
-        InitializeShopUI();
     }
 
     public void OnStart(Vector2Int _levelSize)
@@ -60,7 +59,7 @@ public class BuildingManager
 
     #region ShopUI
 
-    private void InitializeShopUI()
+    public void InitializeShopUI()
     {
         shopItemParent = GameObject.Find("ItemParent").transform;
         shopItemPrefab = Resources.Load("Item", typeof(GameObject)) as GameObject;

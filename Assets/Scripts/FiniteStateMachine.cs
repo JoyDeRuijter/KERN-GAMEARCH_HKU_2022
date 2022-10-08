@@ -16,6 +16,7 @@ public class FiniteStateMachine
         }
         SwitchState(startState);
     }
+
     public void OnUpdate()
     {
         currentState?.OnUpdate();

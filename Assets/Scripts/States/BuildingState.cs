@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class BuildingState : BaseState
 {
-    public float buildTime = 30;
     float timeLeft;
 
     public override void OnEnter()
     {
-        timeLeft = buildTime;
+        Debug.Log("Building Phase Started");
+        timeLeft = Manager.Instance.buildTime;
+        Manager.Instance.buildingMenu.SetActive(true);
+        Manager.Instance.buildingManager.InitializeShopUI();
     }
 
     public override void OnExit()
     {
+        Manager.Instance.buildingMenu.SetActive(false);
     }
 
     public override void OnUpdate()
     {
+        //Debug.Log(timeLeft);
         timeLeft -= Time.deltaTime;
         if (timeLeft <= 0)
         {

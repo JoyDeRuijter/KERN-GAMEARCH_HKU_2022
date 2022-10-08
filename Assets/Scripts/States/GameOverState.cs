@@ -6,16 +6,17 @@ public class GameOverState : BaseState
 {
     public override void OnEnter()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Game Over");
+        Manager.Instance.gameOverMenu.SetActive(true);
     }
 
     public override void OnExit()
     {
-        throw new System.NotImplementedException();
+        Manager.Instance.gameOverMenu.SetActive(false);
     }
 
     public override void OnUpdate()
     {
-        throw new System.NotImplementedException();
+       
     }
 }

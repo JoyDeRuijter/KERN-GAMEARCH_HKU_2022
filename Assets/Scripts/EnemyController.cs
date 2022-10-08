@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyController
 {
+    
+    public Vector3 position;
 
     private EnemyManager enemyManager;
 
@@ -11,7 +13,6 @@ public class EnemyController
 
     private GameObject body;
     
-    private Vector3 position;
     private Vector3 startPosition;
     private Vector3Int nextPosition;
 
@@ -44,7 +45,10 @@ public class EnemyController
         if(Vector3.Distance(position,waypoints[waypointIndex]) <= 0.05f)
         {
             if(waypointIndex >= waypoints.Count-1){
-                Die();
+                //Die();
+                nextPosition = waypoints[waypointIndex];
+                position = waypoints[waypointIndex];
+                AttackBase();
             }
             else
             {
@@ -62,6 +66,18 @@ public class EnemyController
         body.transform.position = position;
         nextPosition = Vector3Int.FloorToInt(startPosition);
         enemyManager.ReturnToPool(this);
+    }
+
+    float timeLeft = 1f;
+    private void AttackBase()
+    {
+        timeLeft -= Time.deltaTime;
+        if(timeLeft <= 0)
+        {
+            //Manager.Instance.health -= 0.5f;
+            Debug.Log("Do Damage to Base");
+            timeLeft = 1f;
+        }
     }
 
     public void MoveTowardsTarget(Vector3Int _target)
@@ -222,7 +238,7 @@ public class EnemyController
         if(Manager.Instance.level.ContainsKey(pos))
         {
 
-            if(Manager.Instance.level[pos].type == TileType.WALL || Manager.Instance.level[pos].isOccupied)
+            if(Manager.Instance.level[pos].type == TileType.WALL)
             {
                 canMove = false;
             }

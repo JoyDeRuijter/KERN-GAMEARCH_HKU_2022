@@ -21,7 +21,7 @@ public class Manager : MonoBehaviour
     public GameObject buildingMenu;
     public GameObject gameOverMenu;
 
-    public EnemyManager enemies = new EnemyManager(3);
+    public EnemyManager enemyManager = new EnemyManager(3);
 
     [Header("Level Settings")]
     [SerializeField] private string levelPath;
@@ -66,7 +66,7 @@ public class Manager : MonoBehaviour
         SetCameraPosition();
 
         buildingManager.OnStart(generator.levelSize);
-        enemies.OnStart();
+        enemyManager.OnStart();
     }
 
     private void Update()
@@ -74,7 +74,8 @@ public class Manager : MonoBehaviour
         fsm.OnUpdate();
         buildingManager.OnUpdate();
         inputHandler.HandleInput();
-        enemies.OnUpdate();
+        enemyManager.OnUpdate();
+
     }
 
     private void SetCameraPosition()

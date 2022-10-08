@@ -8,8 +8,8 @@ public class AttackState : BaseState
     public override void OnEnter()
     {
         Debug.Log("Attack Phase Started");
-        Manager.Instance.enemies.StartAttack();
-        Debug.Log(Manager.Instance.enemies.activePool.Count);
+        Manager.Instance.enemyManager.StartAttack();
+        Debug.Log(Manager.Instance.enemyManager.activePool.Count);
     }
 
     public override void OnExit()
@@ -24,7 +24,7 @@ public class AttackState : BaseState
         }
 
         //als alle enemies dood zijn switch state [buildingstate]
-        if(Manager.Instance.enemies.activePool.Count == 0)
+        if(Manager.Instance.enemyManager.activePool.Count == 0)
         {
             owner.SwitchState(typeof(BuildingState));
         }

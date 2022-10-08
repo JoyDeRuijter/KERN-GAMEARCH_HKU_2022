@@ -6,14 +6,14 @@ public class StartState : BaseState
 {
     public override void OnEnter()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Main Menu");
+        Manager.Instance.startMenu.SetActive(true);
     }
     public override void OnExit()
     {
-        throw new System.NotImplementedException();
+        Manager.Instance.startMenu.SetActive(false);
     }
     public override void OnUpdate()
     {
-        throw new System.NotImplementedException();
     }
 }

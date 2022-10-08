@@ -6,22 +6,33 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
-
     public static Manager Instance { get; private set;}
     private FiniteStateMachine fsm;
 
     public Dictionary<Vector3Int, Tile> level = new Dictionary<Vector3Int, Tile>();
 
+    [Header ("Prefabs")]
     public GameObject pathPrefab;
     public GameObject wallPrefab;
     public GameObject enemyPrefab;
 
-    private EnemyManager enemies = new EnemyManager(3);
+    [Header("UI Menu's")]
+    public GameObject startMenu;
+    public GameObject buildingMenu;
+    public GameObject gameOverMenu;
 
+    public EnemyManager enemies = new EnemyManager(3);
+
+    [Header("Level Settings")]
     [SerializeField] private string levelPath;
+    [SerializeField] public float buildTime;
+    public int amountOfCoins = 500;
+    public float health;
 
     public Transform mainCamera;
 
+
+    [Header("Key Bindings")]
     //Customizable keybindings
     [SerializeField] private KeyCode buildKey = KeyCode.B;
     [SerializeField] private KeyCode upgradeKey = KeyCode.U;
@@ -30,12 +41,12 @@ public class Manager : MonoBehaviour
 
     //Dependencies
     private LevelGenerator generator = new LevelGenerator();
-    private BuildingManager buildingManager = new BuildingManager();
+    public BuildingManager buildingManager = new BuildingManager();
     private InputHandler inputHandler = new InputHandler();
     private KeyBinder keyBinder;
 
-    //Temporary? Money stat
-    public int amountOfCoins = 500;
+    //States
+    private BaseState[] states = new BaseState[] { new StartState(), new BuildingState(), new AttackState(), new GameOverState()} ;
 
     private void Awake()
     {
@@ -49,11 +60,10 @@ public class Manager : MonoBehaviour
 
     private void Start()
     {
-        fsm = new FiniteStateMachine(typeof(StartState), GetComponents<BaseState>());
+        fsm = new FiniteStateMachine(typeof(StartState),states);
 
         level = generator.Generate(levelPath);
         SetCameraPosition();
-        Debug.Log(level.Count);
 
         buildingManager.OnStart(generator.levelSize);
         enemies.OnStart();
@@ -62,11 +72,9 @@ public class Manager : MonoBehaviour
     private void Update()
     {
         fsm.OnUpdate();
-        enemy.OnUpdate();
         buildingManager.OnUpdate();
         inputHandler.HandleInput();
         enemies.OnUpdate();
-
     }
 
     private void SetCameraPosition()
@@ -74,4 +82,13 @@ public class Manager : MonoBehaviour
         mainCamera.position = new Vector3(generator.levelSize.y / 2, mainCamera.position.y, generator.levelSize.x / 2 + 1);
     }
 
+    public void StartButton()
+    {
+        fsm.SwitchState(typeof(BuildingState));
+    }
+
+    public void StartOverButton()
+    {
+        fsm.SwitchState(typeof(StartState));
+    }
 }

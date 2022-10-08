@@ -14,26 +14,49 @@ public class Manager : MonoBehaviour
     public GameObject pathPrefab;
     public GameObject wallPrefab;
 
-    [SerializeField]
-    private string levelPath;
+    [SerializeField] private string levelPath;
 
+    [SerializeField] private Transform mainCamera;
+
+    //Customizable keybindings
+    [SerializeField] private KeyCode buildKey = KeyCode.B;
+    [SerializeField] private KeyCode upgradeKey = KeyCode.U;
+    [SerializeField] private KeyCode destroyKey = KeyCode.D;
+    [SerializeField] private KeyCode undoKey = KeyCode.Tab;
+
+    //Dependencies
     private LevelGenerator generator = new LevelGenerator();
+    private BuildingManager buildingManager = new BuildingManager();
+    private InputHandler inputHandler = new InputHandler();
+    private KeyBinder keyBinder;
 
     private void Awake()
     {
         if(Instance != null && Instance != this) Destroy(this);
         else Instance = this;
+
+        buildingManager.OnAwake();
+        keyBinder = new KeyBinder(buildingManager, inputHandler, buildKey, upgradeKey, destroyKey, undoKey);
     }
 
     private void Start()
     {
         level = generator.Generate(levelPath);
+        SetCameraPosition();
         Debug.Log(level.Count);
+
+        buildingManager.OnStart();
     }
 
     private void Update()
     {
-        
+        buildingManager.OnUpdate();
+        inputHandler.HandleInput();
+    }
+
+    private void SetCameraPosition()
+    {
+        mainCamera.position = new Vector3(generator.levelSize.y / 2, mainCamera.position.y, generator.levelSize.x / 2 + 1);
     }
 
 }

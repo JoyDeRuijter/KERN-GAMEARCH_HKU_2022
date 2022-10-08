@@ -19,21 +19,22 @@ public class BuildingManager
     private List<Button> currentShopItemButtons = new List<Button>();
 
     public void OnAwake()
-    { 
+    {
         InitializeBuilder();
         InitializeBuildings();
         InitializeShopUI();
     }
 
-    public void OnStart()
-    { 
-    
+    public void OnStart(Vector2Int _levelSize)
+    {
+        builder.levelSize = _levelSize;
     }
 
     public void OnUpdate()
     {
         //UpdateShopUI();
         CheckShopButtons();
+        builder.OnUpdate();
     }
 
     #region Initialization
@@ -52,8 +53,8 @@ public class BuildingManager
         availableBuildings.Add(new Building("Test5", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), new Vector2Int(2, 2), 100));
         availableBuildings.Add(new Building("Test6", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), new Vector2Int(2, 3), 350));
 
-        foreach (Building b in availableBuildings)
-            Debug.Log($"Available building : {b.prefab.name} has size: {b.size.x},{b.size.y} and price: ${b.price}");
+        //foreach (Building b in availableBuildings)
+        //    Debug.Log($"Available building : {b.prefab.name} has size: {b.size.x},{b.size.y} and price: ${b.price}");
     }
     #endregion
 

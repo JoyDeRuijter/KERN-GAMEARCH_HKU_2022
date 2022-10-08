@@ -481,12 +481,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pathPrefab: {fileID: 4999248340084563991, guid: 121a3f84350ce8d4bab876a202db4b86, type: 3}
   wallPrefab: {fileID: 7047502295460344836, guid: 255846a0f88ae82429eb5f94e6a8f40e, type: 3}
+  enemyPrefab: {fileID: 2635718706058324468, guid: 96b327d69d7d40848b63fee7323a80d9, type: 3}
   levelPath: Assets/Maps/TestMap.tsv
   mainCamera: {fileID: 138036301}
   buildKey: 98
   upgradeKey: 117
   destroyKey: 100
   undoKey: 9
+  amountOfCoins: 500
 --- !u!4 &549634381
 Transform:
   m_ObjectHideFlags: 0

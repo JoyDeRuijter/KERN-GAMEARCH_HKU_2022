@@ -19,7 +19,7 @@ public class Manager : MonoBehaviour
 
     [SerializeField] private string levelPath;
 
-    [SerializeField] private Transform mainCamera;
+    public Transform mainCamera;
 
     //Customizable keybindings
     [SerializeField] private KeyCode buildKey = KeyCode.B;
@@ -32,6 +32,9 @@ public class Manager : MonoBehaviour
     private BuildingManager buildingManager = new BuildingManager();
     private InputHandler inputHandler = new InputHandler();
     private KeyBinder keyBinder;
+
+    //Temporary? Money stat
+    public int amountOfCoins = 500;
 
     private void Awake()
     {
@@ -48,7 +51,7 @@ public class Manager : MonoBehaviour
         SetCameraPosition();
         Debug.Log(level.Count);
 
-        buildingManager.OnStart();
+        buildingManager.OnStart(generator.levelSize);
         enemy.OnStart();
     }
 

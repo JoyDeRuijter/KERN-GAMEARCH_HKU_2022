@@ -5,20 +5,28 @@ using UnityEngine;
 public class EnemyController
 {
 
+    private EnemyManager enemyManager;
+
     private float moveSpeed;
 
     private GameObject body;
     
     private Vector3 position;
-    private Vector3Int targetPosition;
+    private Vector3 startPosition;
     private Vector3Int nextPosition;
 
-    public EnemyController(Vector3 _startPos, Vector3Int _target, float _moveSpeed)
+    private List<Vector3Int> waypoints = new List<Vector3Int>();
+    private int waypointIndex = 0;
+
+    public EnemyController(Vector3 _startPos, List<Vector3Int> _waypoints, float _moveSpeed, EnemyManager _manager)
     {
+        enemyManager = _manager;
+
         position = _startPos;
         
         nextPosition = Vector3Int.RoundToInt(_startPos);
-        targetPosition = _target;
+        startPosition = _startPos;
+        waypoints = _waypoints;
 
         moveSpeed = _moveSpeed;
     }
@@ -31,11 +39,17 @@ public class EnemyController
     public void OnUpdate()
     {
         body.transform.position = position;
-        MoveTowardsTarget(targetPosition);
+        MoveTowardsTarget(waypoints[waypointIndex]);
 
-        if(Vector3.Distance(position,targetPosition) <= 0.05f)
+        if(Vector3.Distance(position,waypoints[waypointIndex]) <= 0.05f)
         {
-            Die();
+            if(waypointIndex >= waypoints.Count-1){
+                Die();
+            }
+            else
+            {
+                waypointIndex++;
+            }        
         }
     }
 
@@ -43,47 +57,50 @@ public class EnemyController
 
     private void Die()
     {
-        position.Set(2,0,0);
-        nextPosition.Set(2,0,0);
+        waypointIndex = 0;
+        position = startPosition;
+        body.transform.position = position;
+        nextPosition = Vector3Int.FloorToInt(startPosition);
+        enemyManager.ReturnToPool(this);
     }
 
-    public void MoveTowardsTarget(Vector3Int target)
+    public void MoveTowardsTarget(Vector3Int _target)
     {
 
         position = Vector3.MoveTowards(position,nextPosition,moveSpeed*Time.deltaTime);
 
         if(Vector3.Distance(position,nextPosition) <= 0.05f) {
 
-            if(Mathf.Abs(target.x-position.x) >= Mathf.Abs(target.z-position.z)) {
+            if(Mathf.Abs(_target.x-position.x) >= Mathf.Abs(_target.z-position.z)) {
 
-                if(target.x > position.x) {
+                if(_target.x > position.x) {
                     if(CanMove("Right")) {
                         Move("Right");
                     }
                     else {
-                        if(target.z < position.z) {
+                        if(_target.z < position.z) {
                             if(CanMove("Down")) {
                                 Move("Down");
                             }
                         }
-                        else if(target.z > position.z) {
+                        else if(_target.z > position.z) {
                             if(CanMove("Up")) {
                                 Move("Up");
                             }
                         }
                     }
                 }
-                else if(target.x < position.x) {
+                else if(_target.x < position.x) {
                     if(CanMove("Left")) {
                         Move("Left");
                     }
                     else {
-                        if(target.z < position.z) {
+                        if(_target.z < position.z) {
                             if(CanMove("Down")) {
                                 Move("Down");
                             }
                         }
-                        else if(target.z > position.z) {
+                        else if(_target.z > position.z) {
                             if(CanMove("Up")) {
                                 Move("Up");
                             }
@@ -92,36 +109,36 @@ public class EnemyController
                 }
             }
 
-            if(Mathf.Abs(target.x-position.x) < Mathf.Abs(target.z-position.z)) {
+            if(Mathf.Abs(_target.x-position.x) < Mathf.Abs(_target.z-position.z)) {
 
-                if(target.z < position.z) {
+                if(_target.z < position.z) {
                     if(CanMove("Down")) {
                         Move("Down");
                     }
                     else {
-                        if(target.x > position.x) {
+                        if(_target.x > position.x) {
                             if(CanMove("Right")) {
                                 Move("Right");
                             }
                         }
-                        else if(target.x < position.x) {
+                        else if(_target.x < position.x) {
                             if(CanMove("Left")) {
                                 Move("Left");
                             }
                         }
                     }
                 }
-                else if(target.z > position.z) {
+                else if(_target.z > position.z) {
                     if(CanMove("Up")) {
                         Move("Up");
                     }
                     else {
-                        if(target.x > position.x) {
+                        if(_target.x > position.x) {
                             if(CanMove("Right")) {
                                 Move("Right");
                             }
                         }
-                        else if(target.x < position.x) {
+                        else if(_target.x < position.x) {
                             if(CanMove("Left")) {
                                 Move("Left");
                             }
@@ -134,13 +151,13 @@ public class EnemyController
 
     }
 
-    private void Move(string dir)
+    private void Move(string _dir)
     {
 
         int x = nextPosition.x;
         int z = nextPosition.z;
 
-        switch(dir)
+        switch(_dir)
         {
             case "Right":
                 x = nextPosition.x+1;
@@ -168,7 +185,7 @@ public class EnemyController
 
     }
 
-    private bool CanMove(string dir)
+    private bool CanMove(string _dir)
     {
 
         bool canMove = true;
@@ -176,7 +193,7 @@ public class EnemyController
         int x = nextPosition.x;
         int z = nextPosition.z;
 
-        switch(dir)
+        switch(_dir)
         {
             case "Right":
                 x = nextPosition.x+1;

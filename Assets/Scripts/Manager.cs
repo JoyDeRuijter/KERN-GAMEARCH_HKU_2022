@@ -15,7 +15,7 @@ public class Manager : MonoBehaviour
     public GameObject wallPrefab;
     public GameObject enemyPrefab;
 
-    private EnemyController enemy = new EnemyController(new Vector3Int(2,0,0),new Vector3Int(9,0,6),3);
+    private EnemyManager enemies = new EnemyManager(3);
 
     [SerializeField] private string levelPath;
 
@@ -41,31 +41,31 @@ public class Manager : MonoBehaviour
         if(Instance != null && Instance != this) Destroy(this);
         else Instance = this;
 
-        buildingManager.OnAwake();
-        keyBinder = new KeyBinder(buildingManager, inputHandler, buildKey, upgradeKey, destroyKey, undoKey);
+        // buildingManager.OnAwake();
+        // keyBinder = new KeyBinder(buildingManager, inputHandler, buildKey, upgradeKey, destroyKey, undoKey);
     }
 
     private void Start()
     {
         level = generator.Generate(levelPath);
-        SetCameraPosition();
-        Debug.Log(level.Count);
+        // SetCameraPosition();
+        // Debug.Log(level.Count);
 
-        buildingManager.OnStart(generator.levelSize);
-        enemy.OnStart();
+        // buildingManager.OnStart(generator.levelSize);
+        enemies.OnStart();
     }
 
     private void Update()
     {
 
-        enemy.OnUpdate();
-        buildingManager.OnUpdate();
-        inputHandler.HandleInput();
+        enemies.OnUpdate();
+        // buildingManager.OnUpdate();
+        // inputHandler.HandleInput();
     }
 
     private void SetCameraPosition()
     {
-        mainCamera.position = new Vector3(generator.levelSize.y / 2, mainCamera.position.y, generator.levelSize.x / 2 + 1);
+        //mainCamera.position = new Vector3(generator.levelSize.y / 2, mainCamera.position.y, generator.levelSize.x / 2 + 1);
     }
 
 }

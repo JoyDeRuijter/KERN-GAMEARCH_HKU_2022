@@ -22,16 +22,17 @@ public class Manager : MonoBehaviour
     public GameObject buildingMenu;
     public GameObject gameOverMenu;
     public GameObject coinCounter;
+    public GameObject buildTimer;
 
     public EnemyManager enemyManager = new EnemyManager(50);
 
     [Header("Level Settings")]
     [SerializeField] private string levelPath;
     [SerializeField] public float buildTime;
+    private float buildTimeLeft;
     public int startCoins = 800;
     public int amountOfCoins;
     public float health;
-
     public Transform mainCamera;
 
 
@@ -58,6 +59,7 @@ public class Manager : MonoBehaviour
         buildingManager.OnAwake();
         keyBinder = new KeyBinder(buildingManager, inputHandler, buildKey, undoKey);
         amountOfCoins = startCoins;
+        buildTimeLeft = buildTime;
     }
 
     private void Start()
@@ -78,6 +80,11 @@ public class Manager : MonoBehaviour
         buildingManager.OnUpdate();
         inputHandler.HandleInput();
         enemyManager.OnUpdate();
+
+        if (buildTimer.activeSelf)
+            UpdateBuildTimer();
+        else
+            buildTimeLeft = buildTime;
     }
 
     private void OnDestroy()
@@ -95,6 +102,12 @@ public class Manager : MonoBehaviour
     {
         amountOfCoins = _value;
         coinCounter.GetComponentInChildren<TMP_Text>().text = $"€{amountOfCoins},-";
+    }
+
+    public void UpdateBuildTimer()
+    {
+        buildTimeLeft -= Time.deltaTime;
+        buildTimer.GetComponentInChildren<TMP_Text>().text = buildTimeLeft.ToString("F2");
     }
 
     public void StartButton()

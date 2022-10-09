@@ -13,11 +13,13 @@ public class BuildingState : BaseState
         Manager.Instance.buildingMenu.SetActive(true);
         Manager.Instance.buildingManager.shopUIManager.InitializeShopUI();
         Manager.Instance.coinCounter.SetActive(true);
+        Manager.Instance.buildTimer.SetActive(true);
     }
 
     public override void OnExit()
     {
         Manager.Instance.buildingMenu.SetActive(false);
+        Manager.Instance.buildTimer.SetActive(false);
     }
 
     public override void OnUpdate()

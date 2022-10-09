@@ -7,7 +7,7 @@ public class GameOverState : BaseState
     public override void OnEnter()
     {
         Manager.Instance.gameOverMenu.SetActive(true);
-        
+        Manager.Instance.coinCounter.SetActive(false);
     }
 
     public override void OnExit()

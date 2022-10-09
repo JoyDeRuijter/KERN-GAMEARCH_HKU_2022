@@ -22,6 +22,6 @@ public class Building
         price = _price;
     }
 
-    public void SetPosition(Vector3Int _position){ position = _position;}
-    public Vector3Int GetPosition(){ return position;}
+    public void SetPosition(Vector3Int _position) => position = _position;
+    public Vector3Int GetPosition() => position;
 }

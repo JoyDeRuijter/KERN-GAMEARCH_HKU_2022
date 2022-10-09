@@ -91,7 +91,6 @@ public class EnemyController : IEnemy
         if(attackTimeLeft <= 0)
         {
             Manager.Instance.health -= _dmg;
-            Debug.Log("Do Damage to Base");
             attackTimeLeft = 1f;
         }
     }

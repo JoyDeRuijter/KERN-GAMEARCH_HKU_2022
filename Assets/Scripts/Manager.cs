@@ -86,7 +86,8 @@ public class Manager : MonoBehaviour
 
     public void SetCoinCounter()
     {
-        coinCounter.GetComponent<TMP_Text>().text = $"€{amountOfCoins},-";
+        //coinCounter.GetComponent<TMP_Text>().text = $"ï¿½{amountOfCoins},-";
+        coinCounter.GetComponent<TMP_Text>().text = amountOfCoins.ToString();
     }
 
     public void StartButton()

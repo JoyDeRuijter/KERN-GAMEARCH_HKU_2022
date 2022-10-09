@@ -54,10 +54,12 @@ public class BuildingManager
         builder.OnUpdate();
     }
 
-    public void BuildingsAttack(EnemyController _target)
+    public void BuildingsAttack(IEnemy _target)
     { 
         foreach(Building building in placedBuildings)
-            building.attackBehaviour.Attack(_target);
+        {
+            building.attackBehaviour.Activate(_target);
+        }
     }
 
     public Building GetSelectedBuilding()
@@ -99,7 +101,7 @@ public class BuildingManager
             GameObject newShopItem = GameObject.Instantiate(shopItemPrefab, shopItemParent);
             newShopItem.transform.Find("Icon").GetComponent<RawImage>().texture = availableBuildings[i].buildingIcon;
             newShopItem.transform.Find("Name").GetComponent<TMP_Text>().text = availableBuildings[i].name;
-            newShopItem.transform.Find("Price").GetComponent<TMP_Text>().text = $"€{availableBuildings[i].price},-";
+            newShopItem.transform.Find("Price").GetComponent<TMP_Text>().text = $"ï¿½{availableBuildings[i].price},-";
             currentShopItems.Add(newShopItem);
             currentShopItemButtons.Add(newShopItem.transform.Find("Button").GetComponent<Button>());
         }

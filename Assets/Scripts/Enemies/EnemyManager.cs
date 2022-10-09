@@ -19,8 +19,8 @@ public class EnemyManager
 
     private int enemyAmount;
 
-    private EnemyDecorator startDecorator = new EnemyDecorator(20,5);
-    private EnemyDecorator modifier = new EnemyDecorator(5,1);
+    private EnemyDecorator startDecorator = new EnemyDecorator(150,5);
+    private EnemyDecorator modifier = new EnemyDecorator(35,2);
 
     public EnemyManager(int _amount)
     {
@@ -54,7 +54,6 @@ public class EnemyManager
 
     public void StartAttack()
     {
-        Debug.Log("Started");
         foreach(EnemyController e in inactivePool)
         {
             activePool.Add(e);

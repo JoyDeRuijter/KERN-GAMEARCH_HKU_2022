@@ -6,13 +6,18 @@ public class GameOverState : BaseState
 {
     public override void OnEnter()
     {
-        Debug.Log("Game Over");
         Manager.Instance.gameOverMenu.SetActive(true);
+        
     }
 
     public override void OnExit()
     {
         Manager.Instance.gameOverMenu.SetActive(false);
+        for(int i = Manager.Instance.enemyManager.activePool.Count-1; i >= 0; i--)
+        {
+            EnemyController e = (EnemyController)Manager.Instance.enemyManager.activePool[i];
+            e.Die();
+        }
     }
 
     public override void OnUpdate()

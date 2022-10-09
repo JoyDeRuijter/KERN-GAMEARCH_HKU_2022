@@ -21,7 +21,7 @@ public class Manager : MonoBehaviour
     public GameObject buildingMenu;
     public GameObject gameOverMenu;
 
-    public EnemyManager enemyManager = new EnemyManager(3);
+    public EnemyManager enemyManager = new EnemyManager(50);
 
     [Header("Level Settings")]
     [SerializeField] private string levelPath;

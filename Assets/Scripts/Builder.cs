@@ -32,6 +32,11 @@ public class Builder
 
     public void BuildBuilding()
     {
+        if (isBuilding)
+        { 
+            return;
+        }
+
         selectedBuilding = buildingManager.GetSelectedBuilding();
         if (selectedBuilding != null && selectedBuilding.price <= manager.amountOfCoins)
         {
@@ -39,7 +44,9 @@ public class Builder
             PlacementSelectionBlocks();
         }
         else
+        { 
             Debug.Log("CAN'T BUILD! - No building is selected, or the price is higher than the amount of coins!");
+        }
     }
 
     public void OnUpdate()
@@ -50,7 +57,9 @@ public class Builder
             MovePlacementSelectionBlocks(block);
 
             if (Input.GetMouseButtonDown(0))
+            { 
                 OnPlacementConfirmed();
+            }
         }
     }
 
@@ -84,6 +93,7 @@ public class Builder
             manager.level[selectedPosition].isOccupied = true;
             GameObject newBuilding = GameObject.Instantiate(selectedBuilding.prefab);
             newBuilding.transform.position = new Vector3(selectedPosition.x, -0.5f, selectedPosition.z);
+            buildingManager.AddPlacedObject(newBuilding);
             latestInstantiatedBuilding = newBuilding;
             latestBuiltBuilding = selectedBuilding;
             latestPaidPrice = selectedBuilding.price;
@@ -103,9 +113,13 @@ public class Builder
             Vector3Int newPosition = new Vector3Int((int)mousePosition.x, 0, (int)mousePosition.z);
             _block.transform.position = newPosition;
             if (manager.level[newPosition].isOccupied)
+            {
                 _block.GetComponentInChildren<MeshRenderer>().material = invalidMat;
+            }
             else
+            { 
                 _block.GetComponentInChildren<MeshRenderer>().material = validMat;
+            }
         }
     }
 

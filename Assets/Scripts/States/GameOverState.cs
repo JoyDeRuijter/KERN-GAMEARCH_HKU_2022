@@ -7,7 +7,7 @@ public class GameOverState : BaseState
     public override void OnEnter()
     {
         Manager.Instance.gameOverMenu.SetActive(true);
-        
+        Manager.Instance.coinCounter.SetActive(false);
     }
 
     public override void OnExit()
@@ -19,6 +19,7 @@ public class GameOverState : BaseState
             e.Die();
         }
         Manager.Instance.amountOfCoins = Manager.Instance.startCoins;
+        Manager.Instance.buildingManager.DestroyAllPlacedObjects();
     }
 
     public override void OnUpdate()

@@ -8,6 +8,7 @@ public class BuildingManager
 {
     private List<Building> availableBuildings = new List<Building>(); // If a building from this list is build, remove it from the list and add it to placedBuildings
     private List<Building> placedBuildings = new List<Building>(); // If a building from this list is removed, add it back to the availableBuildings
+    private List<GameObject> placedObjects = new List<GameObject>();
     public Builder builder;
 
     private Building selectedBuilding;
@@ -20,10 +21,7 @@ public class BuildingManager
 
     #region Initialization
 
-    private void InitializeBuilder()
-    {
-        builder = new Builder(this);
-    }
+    private void InitializeBuilder() => builder = new Builder(this);
 
     // Create all the different buildings here and add them to the available buildings list
     private void InitializeBuildings()
@@ -43,10 +41,7 @@ public class BuildingManager
         InitializeBuildings();
     }
 
-    public void OnStart(Vector2Int _levelSize)
-    {
-        builder.levelSize = _levelSize;
-    }
+    public void OnStart(Vector2Int _levelSize) => builder.levelSize = _levelSize;
 
     public void OnUpdate()
     {
@@ -55,17 +50,14 @@ public class BuildingManager
     }
 
     public void BuildingsAttack(IEnemy _target)
-    { 
-        foreach(Building building in placedBuildings)
-        {
+    {
+        foreach (Building building in placedBuildings)
+        { 
             building.attackBehaviour.Activate(_target);
         }
     }
 
-    public Building GetSelectedBuilding()
-    {
-        return selectedBuilding;
-    }
+    public Building GetSelectedBuilding() => selectedBuilding;
 
     public void AddBuilding(Building _building)
     { 
@@ -81,6 +73,19 @@ public class BuildingManager
         UpdateShopUI();
     }
 
+    public void AddPlacedObject(GameObject _newBuilding)
+    { 
+        placedObjects.Add(_newBuilding);
+    }
+
+    public void DestroyAllPlacedObjects()
+    {
+        foreach (GameObject buildingObject in placedObjects)
+        { 
+            GameObject.Destroy(buildingObject);
+        }
+    }
+
     #region ShopUI
 
     public void InitializeShopUI()
@@ -94,14 +99,16 @@ public class BuildingManager
     private void UpdateShopUI()
     {
         foreach (GameObject shopItem in currentShopItems)
+        { 
             GameObject.Destroy(shopItem);
+        }
 
         for (int i = 0; i < availableBuildings.Count && i < 4; i++)
         {
             GameObject newShopItem = GameObject.Instantiate(shopItemPrefab, shopItemParent);
             newShopItem.transform.Find("Icon").GetComponent<RawImage>().texture = availableBuildings[i].buildingIcon;
             newShopItem.transform.Find("Name").GetComponent<TMP_Text>().text = availableBuildings[i].name;
-            newShopItem.transform.Find("Price").GetComponent<TMP_Text>().text = $"�{availableBuildings[i].price},-";
+            newShopItem.transform.Find("Price").GetComponent<TMP_Text>().text = $"€{availableBuildings[i].price},-";
             currentShopItems.Add(newShopItem);
             currentShopItemButtons.Add(newShopItem.transform.Find("Button").GetComponent<Button>());
         }

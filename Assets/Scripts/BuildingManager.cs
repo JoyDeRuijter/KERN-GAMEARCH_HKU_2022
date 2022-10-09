@@ -45,12 +45,12 @@ public class BuildingManager
     // Create all the different buildings here and add them to the available buildings list
     private void InitializeBuildings()
     {
-        availableBuildings.Add(new Building("Test1", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), new Vector2Int(2, 2), 500));
-        availableBuildings.Add(new Building("Test2", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), new Vector2Int(2, 3), 750));
-        availableBuildings.Add(new Building("Test3", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), new Vector2Int(2, 2), 200));
-        availableBuildings.Add(new Building("Test4", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), new Vector2Int(2, 3), 250));
-        availableBuildings.Add(new Building("Test5", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), new Vector2Int(2, 2), 100));
-        availableBuildings.Add(new Building("Test6", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), new Vector2Int(2, 3), 350));
+        availableBuildings.Add(new Building("Test1", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), 500));
+        availableBuildings.Add(new Building("Test2", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), 750));
+        availableBuildings.Add(new Building("Test3", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), 200));
+        availableBuildings.Add(new Building("Test4", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), 250));
+        availableBuildings.Add(new Building("Test5", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), 100));
+        availableBuildings.Add(new Building("Test6", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), 350));
 
         //foreach (Building b in availableBuildings)
         //    Debug.Log($"Available building : {b.prefab.name} has size: {b.size.x},{b.size.y} and price: ${b.price}");
@@ -69,6 +69,9 @@ public class BuildingManager
 
     private void UpdateShopUI()
     {
+        foreach (GameObject shopItem in currentShopItems)
+            GameObject.Destroy(shopItem);
+
         for (int i = 0; i < availableBuildings.Count && i < 4; i++)
         {
             GameObject newShopItem = GameObject.Instantiate(shopItemPrefab, shopItemParent);

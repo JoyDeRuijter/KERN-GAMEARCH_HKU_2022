@@ -1647,7 +1647,7 @@ MonoBehaviour:
   levelPath: Assets/Maps/TestMap.tsv
   buildTime: 30
   amountOfCoins: 500
-  health: 50
+  health: 100
   mainCamera: {fileID: 1255337931}
   buildKey: 98
   upgradeKey: 117

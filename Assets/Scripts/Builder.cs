@@ -69,10 +69,13 @@ public class Builder
 
     public void OnUpdate()
     {
-        if (isBuilding)
+        if (isBuilding && block != null)
         { 
             GetMousePosition();
             MovePlacementSelectionBlocks(block);
+
+            if (Input.GetMouseButtonDown(0))
+                OnPlacementConfirmed();
         }
     }
 
@@ -84,8 +87,29 @@ public class Builder
 
     private void PlacementSelectionBlocks()
     {
-        block = GameObject.Instantiate(selectionBlock);
-        block.transform.position = new Vector3Int((int)mousePosition.x, 0, (int)mousePosition.z);
+        if (block == null)
+        { 
+            block = GameObject.Instantiate(selectionBlock);
+            block.transform.position = new Vector3Int((int)mousePosition.x, 0, (int)mousePosition.z);
+        }
+    }
+
+    private void OnPlacementConfirmed()
+    {
+        Vector3Int selectedPosition = new Vector3Int((int)block.transform.position.x, 0, (int)block.transform.position.z);
+        if (manager.level[selectedPosition].isOccupied)
+            Debug.Log("This is not a valid place to build a building!");
+        else
+        {
+            AddBuilding(selectedPosition);
+            manager.level[selectedPosition].isOccupied = true;
+            GameObject newBuilding = GameObject.Instantiate(selectedBuilding.prefab);
+            newBuilding.transform.position = new Vector3(selectedPosition.x, -0.5f, selectedPosition.z);
+            
+            GameObject.Destroy(block);
+            selectedBuilding = null;
+        }
+        isBuilding = false;
     }
 
     private void MovePlacementSelectionBlocks(GameObject _block)
@@ -99,5 +123,11 @@ public class Builder
             else
                 _block.GetComponentInChildren<MeshRenderer>().material = validMat;
         }
+    }
+
+    private void AddBuilding(Vector3Int _position)
+    {
+        selectedBuilding.SetPosition(_position);
+        buildingManager.AddBuilding(selectedBuilding);
     }
 }

@@ -24,7 +24,7 @@ public class Tile
         if(type == TileType.PATH)
         {
             GameObject.Instantiate(Manager.Instance.pathPrefab,position,Quaternion.identity);
-            //isOccupied = true;
+            isOccupied = true;
         }
         else if(type == TileType.WALL)
         {

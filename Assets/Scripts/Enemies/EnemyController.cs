@@ -81,7 +81,7 @@ public class EnemyController : IEnemy
         {
             enemyManager.AddModifier(this);
         }
-        Manager.Instance.amountOfCoins += 30;
+        Manager.Instance.amountOfCoins += 5;
         Manager.Instance.SetCoinCounter();
     }
 

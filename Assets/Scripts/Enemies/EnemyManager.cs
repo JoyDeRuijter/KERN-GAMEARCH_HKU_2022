@@ -19,8 +19,8 @@ public class EnemyManager
 
     private int enemyAmount;
 
-    private EnemyDecorator startDecorator = new EnemyDecorator(150,5);
-    private EnemyDecorator modifier = new EnemyDecorator(35,2);
+    private EnemyDecorator startDecorator = new EnemyDecorator(10,5);
+    private EnemyDecorator modifier = new EnemyDecorator(3,2);
 
     public EnemyManager(int _amount)
     {

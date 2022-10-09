@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PapierAttackBehaviour : BaseAttackBehaviour
 {
-    public float damage = 4;
-    public float fireRate = 2;
+    public float damage = 7;
+    public float fireRate = 0.3f;
 
     public override void Activate(IEnemy _target)
     {

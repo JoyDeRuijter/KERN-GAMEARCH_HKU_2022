@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SteenAttackBehaviour : BaseAttackBehaviour
 {
-    public float damage = 10;
-    public float fireRate = 4;
+    public float damage = 20;
+    public float fireRate = 1.2f;
 
     public override void Activate(IEnemy _target)
     {

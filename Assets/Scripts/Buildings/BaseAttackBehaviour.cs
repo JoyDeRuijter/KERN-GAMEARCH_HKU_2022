@@ -6,6 +6,8 @@ public class BaseAttackBehaviour
 {
     public Transform towerTransform;
 
+    private float timeLeft;
+
     public virtual void Activate(IEnemy _target) {}
 
     protected void Attack(IEnemy _target,float _dmg,float _fireRate)
@@ -15,7 +17,9 @@ public class BaseAttackBehaviour
         if (timeLeft <= 0)
         {
             _target.TakeDamage(_dmg);
+            Debug.Log(_target.Health);
             SpawnParticles();
+            timeLeft = _fireRate;
         }
     }
     protected void SpawnParticles()

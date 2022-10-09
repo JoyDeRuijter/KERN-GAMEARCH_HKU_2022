@@ -75,7 +75,6 @@ public class Manager : MonoBehaviour
         buildingManager.OnUpdate();
         inputHandler.HandleInput();
         enemyManager.OnUpdate();
-
     }
 
     private void SetCameraPosition()

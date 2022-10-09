@@ -12,6 +12,7 @@ public class BaseAttackBehaviour
 
     protected void Attack(IEnemy _target,float _dmg,float _fireRate)
     {
+        float timeLeft = _fireRate;
         timeLeft -= Time.deltaTime;
         if (timeLeft <= 0)
         {

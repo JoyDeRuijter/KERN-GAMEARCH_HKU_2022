@@ -5,22 +5,19 @@ using UnityEngine;
 
 public class Builder 
 {
-    private BuildingManager buildingManager;
-    private InputHandler inputHandler;
-    private Building selectedBuilding;
-    private Manager manager = Manager.Instance;
     public bool isBuilding;
-    private Vector3 mousePosition;
-
+    public int latestPaidPrice;
     public GameObject latestInstantiatedBuilding;
     public Building latestBuiltBuilding;
-    public int latestPaidPrice;
+    public Vector2Int levelSize;
 
-    //Selection process
+    private BuildingManager buildingManager;
+    private Building selectedBuilding;
+    private Manager manager = Manager.Instance;
+    private Vector3 mousePosition;
     private GameObject selectionBlock;
     private Material validMat, invalidMat;
     private GameObject block;
-    public Vector2Int levelSize;
 
     public Builder (BuildingManager _buildingManager)
     {
@@ -28,6 +25,20 @@ public class Builder
         selectionBlock = Resources.Load("BuildingPlacementBlock", typeof(GameObject)) as GameObject;
         validMat = Resources.Load("BuildingPlacementGood", typeof(Material)) as Material;
         invalidMat = Resources.Load("BuildingPlacementBad", typeof(Material)) as Material;
+    }
+
+    public void OnUpdate()
+    {
+        if (isBuilding && block != null)
+        { 
+            GetMousePosition();
+            MovePlacementSelectionBlocks(block);
+
+            if (Input.GetMouseButtonDown(0))
+            { 
+                OnPlacementConfirmed();
+            }
+        }
     }
 
     public void BuildBuilding()
@@ -46,20 +57,6 @@ public class Builder
         else
         { 
             Debug.Log("CAN'T BUILD! - No building is selected, or the price is higher than the amount of coins!");
-        }
-    }
-
-    public void OnUpdate()
-    {
-        if (isBuilding && block != null)
-        { 
-            GetMousePosition();
-            MovePlacementSelectionBlocks(block);
-
-            if (Input.GetMouseButtonDown(0))
-            { 
-                OnPlacementConfirmed();
-            }
         }
     }
 
@@ -89,7 +86,7 @@ public class Builder
         }
         else
         {
-            AddBuilding(selectedPosition);
+            AddBuilding();
             manager.level[selectedPosition].isOccupied = true;
             GameObject newBuilding = GameObject.Instantiate(selectedBuilding.prefab);
             newBuilding.transform.position = new Vector3(selectedPosition.x, -0.5f, selectedPosition.z);
@@ -123,9 +120,8 @@ public class Builder
         }
     }
 
-    private void AddBuilding(Vector3Int _position)
+    private void AddBuilding()
     {
-        selectedBuilding.SetPosition(_position);
         buildingManager.AddBuilding(selectedBuilding);
     }
 }

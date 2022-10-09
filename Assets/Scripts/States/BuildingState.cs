@@ -11,7 +11,7 @@ public class BuildingState : BaseState
         Debug.Log("Building Phase Started");
         timeLeft = Manager.Instance.buildTime;
         Manager.Instance.buildingMenu.SetActive(true);
-        Manager.Instance.buildingManager.InitializeShopUI();
+        Manager.Instance.buildingManager.shopUIManager.InitializeShopUI();
         Manager.Instance.coinCounter.SetActive(true);
     }
 

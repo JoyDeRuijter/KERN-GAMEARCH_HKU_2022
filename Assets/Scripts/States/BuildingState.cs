@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BuildingState : BaseState
 {
-    float timeLeft;
+    private float timeLeft;
 
     public override void OnEnter()
     {
@@ -21,13 +21,10 @@ public class BuildingState : BaseState
 
     public override void OnUpdate()
     {
-        //Debug.Log(timeLeft);
         timeLeft -= Time.deltaTime;
         if (timeLeft <= 0)
         {
             owner.SwitchState(typeof(AttackState));
         }
     }
-
-
 }

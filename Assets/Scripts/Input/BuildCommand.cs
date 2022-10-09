@@ -8,9 +8,5 @@ public class BuildCommand : ICommand
 
     public BuildCommand(Builder _builder){ builder = _builder;}
 
-    public void Execute()
-    {
-        // Execute build action
-        builder.BuildBuilding();
-    }
+    public void Execute() => builder.BuildBuilding();
 }

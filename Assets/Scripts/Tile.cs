@@ -31,14 +31,4 @@ public class Tile
             GameObject.Instantiate(Manager.Instance.wallPrefab,position,Quaternion.identity);
         }
     }
-
-    private void OnStart()
-    {
-        
-    }
-    private void OnUpdate()
-    {
-
-    }
-
 }

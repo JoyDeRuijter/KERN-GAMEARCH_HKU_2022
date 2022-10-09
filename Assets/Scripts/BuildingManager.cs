@@ -28,12 +28,12 @@ public class BuildingManager
     // Create all the different buildings here and add them to the available buildings list
     private void InitializeBuildings()
     {
-        availableBuildings.Add(new Building("Test1", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), 500));
-        availableBuildings.Add(new Building("Test2", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), 750));
-        availableBuildings.Add(new Building("Test3", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), 200));
-        availableBuildings.Add(new Building("Test4", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), 250));
-        availableBuildings.Add(new Building("Test5", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), 100));
-        availableBuildings.Add(new Building("Test6", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), 350));
+        availableBuildings.Add(new Building("Test1", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), new PapierAttackBehaviour(), 500));
+        availableBuildings.Add(new Building("Test2", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), new SchaarAttackBehaviour(), 750));
+        availableBuildings.Add(new Building("Test3", (Resources.Load("TestTower3", typeof(GameObject)) as GameObject), (Resources.Load("Icon3", typeof(Texture)) as Texture), new SteenAttackBehaviour(), 200));
+        availableBuildings.Add(new Building("Test4", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), new PapierAttackBehaviour(), 250));
+        availableBuildings.Add(new Building("Test5", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), new SchaarAttackBehaviour(), 100));
+        availableBuildings.Add(new Building("Test6", (Resources.Load("TestTower3", typeof(GameObject)) as GameObject), (Resources.Load("Icon3", typeof(Texture)) as Texture), new SteenAttackBehaviour(), 350));
     }
     #endregion
 
@@ -52,6 +52,12 @@ public class BuildingManager
     {
         CheckShopButtons();
         builder.OnUpdate();
+    }
+
+    public void BuildingsAttack(EnemyController _target)
+    { 
+        foreach(Building building in placedBuildings)
+            building.attackBehaviour.Attack(_target);
     }
 
     public Building GetSelectedBuilding()

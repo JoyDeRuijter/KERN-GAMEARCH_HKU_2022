@@ -25,5 +25,8 @@ public class AttackState : BaseState
         {
             owner.SwitchState(typeof(BuildingState));
         }
+
+        //?????
+        //Manager.Instance.buildingManager.BuildingsAttack(Manager.Instance.enemyManager.) 
     }
 }

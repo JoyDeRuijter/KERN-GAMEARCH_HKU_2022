@@ -430,6 +430,7 @@ MonoBehaviour:
   coinCounter: {fileID: 561105151}
   levelPath: Assets/Maps/TestMap.tsv
   buildTime: 30
+  startCoins: 500
   amountOfCoins: 500
   health: 100
   mainCamera: {fileID: 1669323026}

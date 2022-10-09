@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemyManager
 {
 
-    public List<EnemyController> activePool = new List<EnemyController>();
-    private List<EnemyController> inactivePool = new List<EnemyController>();
+    public List<IEnemy> activePool = new List<IEnemy>();
+    private List<IEnemy> inactivePool = new List<IEnemy>();
 
     private List<Vector3Int> waypoints = new List<Vector3Int>() {
         new Vector3Int(2,0,0),
@@ -19,13 +19,17 @@ public class EnemyManager
 
     private int enemyAmount;
 
+    private EnemyDecorator startDecorator = new EnemyDecorator(20,5);
+    public EnemyDecorator modifier = new EnemyDecorator(5,1);
+
     public EnemyManager(int _amount)
     {
         enemyAmount = _amount;
 
         for(int i = 0; i < _amount; i++)
         {
-            EnemyController e = new EnemyController(new Vector3(2,0,-1-i),waypoints,4,this);
+            IEnemy e = new EnemyController(new Vector3(2,0,-1-i),waypoints,4,this);
+            e = startDecorator.Decorate(e);
             inactivePool.Add(e);
         }
     }
@@ -56,7 +60,8 @@ public class EnemyManager
 
         for(int i = 0; i < activePool.Count; i++)
         {
-            activePool[i].OnUpdate();
+            EnemyController e = (EnemyController)activePool[i];
+            e.OnUpdate();
         }
     }
 
@@ -74,6 +79,14 @@ public class EnemyManager
     {
         inactivePool.Add(_e);
         activePool.Remove(_e);
+    }
+
+    public void AddModifier(IEnemy _e)
+    {
+        // int index = inactivePool.IndexOf(_e);
+        // inactivePool[index] = modifier.Decorate(inactivePool[index]);
+        Debug.Log("Added modifier");
+        _e = modifier.Decorate(_e);
     }
 
 }

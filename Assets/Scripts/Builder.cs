@@ -80,6 +80,7 @@ public class Builder
             manager.level[selectedPosition].isOccupied = true;
             GameObject newBuilding = GameObject.Instantiate(selectedBuilding.prefab);
             newBuilding.transform.position = new Vector3(selectedPosition.x, -0.5f, selectedPosition.z);
+            selectedBuilding.attackBehaviour.towerTransform = newBuilding.transform;
             manager.amountOfCoins -= selectedBuilding.price;
             manager.SetCoinCounter();
             GameObject.Destroy(block);

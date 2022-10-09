@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SchaarAttackBehaviour : BaseAttackBehaviour
 {
-    public float damage = 7;
-    public float fireRate = 4;
+    public float damage = 13;
+    public float fireRate = 0.8f;
 
     public override void Activate(IEnemy _target)
     {

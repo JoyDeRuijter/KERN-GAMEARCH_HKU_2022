@@ -5,6 +5,7 @@ using UnityEngine;
 public class UndoCommand : ICommand
 {
     private Builder builder;
+
     public UndoCommand(Builder _builder) { builder = _builder; }
 
     public void Execute()

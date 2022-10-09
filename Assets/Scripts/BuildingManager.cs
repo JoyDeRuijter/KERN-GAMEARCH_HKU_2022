@@ -18,25 +18,8 @@ public class BuildingManager
     private List<GameObject> currentShopItems = new List<GameObject>();
     private List<Button> currentShopItemButtons = new List<Button>();
 
-    public void OnAwake()
-    {
-        InitializeBuilder();
-        InitializeBuildings();
-    }
-
-    public void OnStart(Vector2Int _levelSize)
-    {
-        builder.levelSize = _levelSize;
-    }
-
-    public void OnUpdate()
-    {
-        //UpdateShopUI();
-        CheckShopButtons();
-        builder.OnUpdate();
-    }
-
     #region Initialization
+
     private void InitializeBuilder()
     {
         builder = new Builder(this);
@@ -51,11 +34,43 @@ public class BuildingManager
         availableBuildings.Add(new Building("Test4", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), 250));
         availableBuildings.Add(new Building("Test5", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), 100));
         availableBuildings.Add(new Building("Test6", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), 350));
-
-        //foreach (Building b in availableBuildings)
-        //    Debug.Log($"Available building : {b.prefab.name} has size: {b.size.x},{b.size.y} and price: ${b.price}");
     }
     #endregion
+
+    public void OnAwake()
+    {
+        InitializeBuilder();
+        InitializeBuildings();
+    }
+
+    public void OnStart(Vector2Int _levelSize)
+    {
+        builder.levelSize = _levelSize;
+    }
+
+    public void OnUpdate()
+    {
+        CheckShopButtons();
+        builder.OnUpdate();
+    }
+
+    public Building GetSelectedBuilding()
+    {
+        return selectedBuilding;
+    }
+
+    public void AddBuilding(Building _building)
+    { 
+        placedBuildings.Add(_building);
+        availableBuildings.Remove(_building);
+        UpdateShopUI();
+    }
+
+    public void DeleteBuilding(Building _building)
+    { 
+        placedBuildings.Remove(_building);
+        availableBuildings.Add(_building);
+    }
 
     #region ShopUI
 
@@ -97,22 +112,4 @@ public class BuildingManager
     }
 
     #endregion
-
-    public Building GetSelectedBuilding()
-    {
-        return selectedBuilding;
-    }
-
-    public void DeleteBuilding(Building _building)
-    { 
-        placedBuildings.Remove(_building);
-        availableBuildings.Add(_building);
-    }
-
-    public void AddBuilding(Building _building)
-    { 
-        placedBuildings.Add(_building);
-        availableBuildings.Remove(_building);
-        UpdateShopUI();
-    }
 }

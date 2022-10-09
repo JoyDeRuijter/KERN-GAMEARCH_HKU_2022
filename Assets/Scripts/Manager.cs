@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using TMPro;
 
 public class Manager : MonoBehaviour
 {
@@ -20,13 +21,15 @@ public class Manager : MonoBehaviour
     public GameObject startMenu;
     public GameObject buildingMenu;
     public GameObject gameOverMenu;
+    public GameObject coinCounter;
 
     public EnemyManager enemyManager = new EnemyManager(50);
 
     [Header("Level Settings")]
     [SerializeField] private string levelPath;
     [SerializeField] public float buildTime;
-    public int amountOfCoins = 500;
+    public int startCoins = 500;
+    public int amountOfCoins;
     public float health;
 
     public Transform mainCamera;
@@ -35,9 +38,7 @@ public class Manager : MonoBehaviour
     [Header("Key Bindings")]
     //Customizable keybindings
     [SerializeField] private KeyCode buildKey = KeyCode.B;
-    [SerializeField] private KeyCode upgradeKey = KeyCode.U;
-    [SerializeField] private KeyCode destroyKey = KeyCode.D;
-    [SerializeField] private KeyCode undoKey = KeyCode.Tab;
+    [SerializeField] private KeyCode undoKey = KeyCode.U;
 
     //Dependencies
     private LevelGenerator generator = new LevelGenerator();
@@ -54,8 +55,8 @@ public class Manager : MonoBehaviour
         else Instance = this;
 
         buildingManager.OnAwake();
-        keyBinder = new KeyBinder(buildingManager, inputHandler, buildKey, upgradeKey, destroyKey, undoKey);
-
+        keyBinder = new KeyBinder(buildingManager, inputHandler, buildKey, undoKey);
+        amountOfCoins = startCoins;
     }
 
     private void Start()
@@ -64,6 +65,7 @@ public class Manager : MonoBehaviour
 
         level = generator.Generate(levelPath);
         SetCameraPosition();
+        SetCoinCounter();
 
         buildingManager.OnStart(generator.levelSize);
         enemyManager.OnStart();
@@ -80,6 +82,11 @@ public class Manager : MonoBehaviour
     private void SetCameraPosition()
     {
         mainCamera.position = new Vector3(generator.levelSize.y / 2, mainCamera.position.y, generator.levelSize.x / 2 + 1);
+    }
+
+    public void SetCoinCounter()
+    {
+        coinCounter.GetComponent<TMP_Text>().text = $"€{amountOfCoins},-";
     }
 
     public void StartButton()

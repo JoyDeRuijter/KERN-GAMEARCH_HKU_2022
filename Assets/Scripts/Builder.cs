@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.ObjectChangeEventStream;
 
 public class Builder 
 {
@@ -33,38 +32,10 @@ public class Builder
         if (selectedBuilding != null && selectedBuilding.price <= manager.amountOfCoins)
         {
             isBuilding = true;
-            // Start placement selection, should show the player if a location is valid or not
             PlacementSelectionBlocks();
-            // If the player clicks on an invalid location -> give feedback and let them try again
-            // If the player clicks on a valid location -> start building
-            // When building is started, pay the building price from the amountOfCoins
-            // Instantiate the building on the chosen position.
-            // Delete the building from the available buildings and update the shop
-            // Add the building to built buildings
         }
         else
             Debug.Log("CAN'T BUILD! - No building is selected, or the price is higher than the amount of coins!");
-
-        //isBuilding = false;
-        //Don't forget NULL check
-        //buy and build selectedBuilding
-        Debug.Log($"Build {selectedBuilding.name} for €{selectedBuilding.price},-");
-    }
-
-    public void UpgradeBuilding()
-    {
-        selectedBuilding = buildingManager.GetSelectedBuilding();
-        //Don't forget NULL check
-        //upgrade selectedBuilding
-        Debug.Log($"Upgrade {selectedBuilding.name} to level {selectedBuilding.level + 1}");
-    }
-
-    public void DestroyBuilding()
-    {
-        selectedBuilding = buildingManager.GetSelectedBuilding();
-        //Don't forget NULL check
-        //destroy selectedBuilding
-        Debug.Log($"Destroy {selectedBuilding.name}");
     }
 
     public void OnUpdate()
@@ -98,14 +69,19 @@ public class Builder
     {
         Vector3Int selectedPosition = new Vector3Int((int)block.transform.position.x, 0, (int)block.transform.position.z);
         if (manager.level[selectedPosition].isOccupied)
+        { 
             Debug.Log("This is not a valid place to build a building!");
+            GameObject.Destroy(block);
+            selectedBuilding = null;
+        }
         else
         {
             AddBuilding(selectedPosition);
             manager.level[selectedPosition].isOccupied = true;
             GameObject newBuilding = GameObject.Instantiate(selectedBuilding.prefab);
             newBuilding.transform.position = new Vector3(selectedPosition.x, -0.5f, selectedPosition.z);
-            
+            manager.amountOfCoins -= selectedBuilding.price;
+            manager.SetCoinCounter();
             GameObject.Destroy(block);
             selectedBuilding = null;
         }

@@ -32,8 +32,6 @@ public class Building
     
     }
 
-    public void SetPosition(Vector3Int _position)
-    { 
-        position = _position;
-    }
+    public void SetPosition(Vector3Int _position){ position = _position;}
+    public Vector3Int GetPosition(){ return position;}
 }

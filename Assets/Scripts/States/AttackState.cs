@@ -8,7 +8,7 @@ public class AttackState : BaseState
     {
         Debug.Log("Attack Phase Started");
         Manager.Instance.enemyManager.StartAttack();
-        Debug.Log(Manager.Instance.enemyManager.activePool.Count);
+        //Debug.Log(Manager.Instance.enemyManager.activePool.Count);
     }
 
     public override void OnExit()

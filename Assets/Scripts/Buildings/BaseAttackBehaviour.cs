@@ -12,12 +12,10 @@ public class BaseAttackBehaviour
 
     protected void Attack(IEnemy _target,float _dmg,float _fireRate)
     {
-        float timeLeft = _fireRate;
         timeLeft -= Time.deltaTime;
         if (timeLeft <= 0)
         {
             _target.TakeDamage(_dmg);
-            Debug.Log(_target.Health);
             SpawnParticles();
             timeLeft = _fireRate;
         }

@@ -703,6 +703,7 @@ MonoBehaviour:
   buildTime: 30
   startCoins: 400
   amountOfCoins: 400
+  startHealth: 100
   health: 100
   mainCamera: {fileID: 1669323026}
   buildKey: 98

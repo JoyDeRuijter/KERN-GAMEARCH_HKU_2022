@@ -9,7 +9,7 @@ public class SteenAttackBehaviour : BaseAttackBehaviour
 
     public override void SpawnParticles()
     {
-        GameObject particleEffect = Resources.Load<GameObject>("Prefabs/ParticleEffect");
+        GameObject particleEffect = Resources.Load<GameObject>("ParticleEffect");
         GameObject spawnedEffect = Object.Instantiate(particleEffect, towerTransform);
         Object.Destroy(spawnedEffect, 2f);
     }

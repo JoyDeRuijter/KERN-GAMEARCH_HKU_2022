@@ -17,7 +17,7 @@ public class AttackState : BaseState
 
     public override void OnUpdate()
     {
-        if(Manager.Instance.health == 0){
+        if(Manager.Instance.health <= 0){
             owner.SwitchState(typeof(GameOverState));
         }
 
@@ -26,7 +26,6 @@ public class AttackState : BaseState
             owner.SwitchState(typeof(BuildingState));
         }
 
-        //?????
-        //Manager.Instance.buildingManager.BuildingsAttack(Manager.Instance.enemyManager.) 
+        Manager.Instance.buildingManager.BuildingsAttack((EnemyController)Manager.Instance.enemyManager.activePool[0]); 
     }
 }

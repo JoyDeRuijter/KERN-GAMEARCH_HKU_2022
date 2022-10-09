@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public interface ISubject
 {
     void RegisterObserver(IObserver observer);
@@ -15,3 +14,8 @@ public interface IObserver
     void UpdateObserver(ISubject subject, object parameter);
 }
 
+public interface IEnemy
+{
+    float Health { get; set; }
+    float Damage { get; set; }
+}

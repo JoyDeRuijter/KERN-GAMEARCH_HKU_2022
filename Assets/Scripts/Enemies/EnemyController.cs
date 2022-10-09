@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController
+public class EnemyController : IEnemy
 {
     
     public Vector3 position;
+
+    public float Health { get; set; }
+    public float Damage { get; set; }
 
     private EnemyManager enemyManager;
 
@@ -45,10 +48,9 @@ public class EnemyController
         if(Vector3.Distance(position,waypoints[waypointIndex]) <= 0.05f)
         {
             if(waypointIndex >= waypoints.Count-1){
-                //Die();
                 nextPosition = waypoints[waypointIndex];
                 position = waypoints[waypointIndex];
-                AttackBase();
+                AttackBase(Damage);
             }
             else
             {
@@ -57,7 +59,14 @@ public class EnemyController
         }
     }
 
-    public void TakeDamage(float _dmg) {}
+    public void TakeDamage(float _dmg)
+    {
+        Health -= _dmg;
+        if(Health <= 0)
+        {
+            Die();
+        }
+    }
 
     private void Die()
     {
@@ -66,15 +75,19 @@ public class EnemyController
         body.transform.position = position;
         nextPosition = Vector3Int.FloorToInt(startPosition);
         enemyManager.ReturnToPool(this);
+        if(Random.Range(0,10) >= 6)
+        {
+            enemyManager.AddModifier(this);
+        }
     }
 
     float timeLeft = 1f;
-    private void AttackBase()
+    public void AttackBase(float _dmg)
     {
         timeLeft -= Time.deltaTime;
         if(timeLeft <= 0)
         {
-            //Manager.Instance.health -= 0.5f;
+            Manager.Instance.health -= _dmg;
             Debug.Log("Do Damage to Base");
             timeLeft = 1f;
         }

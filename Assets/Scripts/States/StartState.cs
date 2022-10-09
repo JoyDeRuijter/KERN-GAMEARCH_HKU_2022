@@ -8,6 +8,7 @@ public class StartState : BaseState
     {
         //Debug.Log("Main Menu");
         Manager.Instance.startMenu.SetActive(true);
+        Manager.Instance.coinCounter.SetActive(false);
     }
     public override void OnExit()
     {

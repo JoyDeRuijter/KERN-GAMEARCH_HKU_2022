@@ -12,6 +12,7 @@ public class BuildingState : BaseState
         timeLeft = Manager.Instance.buildTime;
         Manager.Instance.buildingMenu.SetActive(true);
         Manager.Instance.buildingManager.InitializeShopUI();
+        Manager.Instance.coinCounter.SetActive(true);
     }
 
     public override void OnExit()

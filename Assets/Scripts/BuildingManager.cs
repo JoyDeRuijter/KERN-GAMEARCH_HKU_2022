@@ -20,10 +20,7 @@ public class BuildingManager
 
     #region Initialization
 
-    private void InitializeBuilder()
-    {
-        builder = new Builder(this);
-    }
+    private void InitializeBuilder() => builder = new Builder(this);
 
     // Create all the different buildings here and add them to the available buildings list
     private void InitializeBuildings()
@@ -43,10 +40,7 @@ public class BuildingManager
         InitializeBuildings();
     }
 
-    public void OnStart(Vector2Int _levelSize)
-    {
-        builder.levelSize = _levelSize;
-    }
+    public void OnStart(Vector2Int _levelSize) => builder.levelSize = _levelSize;
 
     public void OnUpdate()
     {
@@ -60,10 +54,7 @@ public class BuildingManager
             building.attackBehaviour.Attack(_target);
     }
 
-    public Building GetSelectedBuilding()
-    {
-        return selectedBuilding;
-    }
+    public Building GetSelectedBuilding() => selectedBuilding;
 
     public void AddBuilding(Building _building)
     { 

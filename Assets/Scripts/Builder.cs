@@ -32,6 +32,9 @@ public class Builder
 
     public void BuildBuilding()
     {
+        if (isBuilding)
+            return;
+
         selectedBuilding = buildingManager.GetSelectedBuilding();
         if (selectedBuilding != null && selectedBuilding.price <= manager.amountOfCoins)
         {

@@ -8,7 +8,6 @@ public enum TileType {PATH, WALL}
 
 public class Tile 
 {
-
     public Vector3Int position;
     public TileType type;
     public bool isOccupied = false;

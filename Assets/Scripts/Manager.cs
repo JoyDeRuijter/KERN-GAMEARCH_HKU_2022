@@ -32,6 +32,8 @@ public class Manager : MonoBehaviour
     private float buildTimeLeft;
     public int startCoins = 800;
     public int amountOfCoins;
+    public float startHealth;
+    [HideInInspector]
     public float health;
     public Transform mainCamera;
 
@@ -64,6 +66,7 @@ public class Manager : MonoBehaviour
 
     private void Start()
     {
+        health = startHealth;
         fsm = new FiniteStateMachine(typeof(StartState),states);
 
         level = generator.Generate(levelPath);

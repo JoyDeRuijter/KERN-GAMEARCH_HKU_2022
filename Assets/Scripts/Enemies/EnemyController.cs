@@ -9,6 +9,7 @@ public class EnemyController : IEnemy
 
     public float Health { get; set; }
     public float Damage { get; set; }
+    public float health;
 
     private EnemyManager enemyManager;
 
@@ -39,6 +40,7 @@ public class EnemyController : IEnemy
 
     public void OnStart()
     {
+        health = Health;
         body = GameObject.Instantiate(Manager.Instance.enemyPrefab,position,Quaternion.identity);
     }
 
@@ -63,8 +65,8 @@ public class EnemyController : IEnemy
 
     public void TakeDamage(float _dmg)
     {
-        Health -= _dmg;
-        if(Health <= 0)
+        health -= _dmg;
+        if(health <= 0)
         {
             Die();
         }
@@ -77,6 +79,7 @@ public class EnemyController : IEnemy
         body.transform.position = position;
         nextPosition = Vector3Int.FloorToInt(startPosition);
         enemyManager.ReturnToPool(this);
+        health = Health;
         if(Random.Range(0,10) >= 6)
         {
             enemyManager.AddModifier(this);

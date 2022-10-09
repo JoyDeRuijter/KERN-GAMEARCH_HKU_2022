@@ -28,7 +28,7 @@ public class Manager : MonoBehaviour
     [Header("Level Settings")]
     [SerializeField] private string levelPath;
     [SerializeField] public float buildTime;
-    public int startCoins = 500;
+    public int startCoins = 800;
     public int amountOfCoins;
     public float health;
 

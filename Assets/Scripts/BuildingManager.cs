@@ -76,6 +76,7 @@ public class BuildingManager
     { 
         placedBuildings.Remove(_building);
         availableBuildings.Add(_building);
+        UpdateShopUI();
     }
 
     #region ShopUI

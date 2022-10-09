@@ -6,13 +6,71 @@ using UnityEngine.UI;
 
 public class BuildingManager
 {
-    public List<Building> availableBuildings = new List<Building>(); // If a building from this list is build, remove it from the list and add it to placedBuildings
+    public List<Building> availableBuildings = new List<Building>();
     public Builder builder;
     public Building selectedBuilding;
     public ShopUIManager shopUIManager; 
     
-    private List<Building> placedBuildings = new List<Building>(); // If a building from this list is removed, add it back to the availableBuildings
+    private List<Building> placedBuildings = new List<Building>();
     private List<GameObject> placedObjects = new List<GameObject>();
+
+    public void OnAwake()
+    {
+        Initialize();
+        shopUIManager.OnAwake();
+    }
+
+    public void OnStart(Vector2Int _levelSize) => builder.levelSize = _levelSize;
+
+    public void OnUpdate()
+    {
+        shopUIManager.CheckShopButtons();
+        builder.OnUpdate();
+    }
+
+    // Make sure that all the placed buildings are activated and therefore will attack in the attackphase
+    public void BuildingsAttack(IEnemy _target)
+    {
+        foreach (Building building in placedBuildings)
+        { 
+            building.attackBehaviour.Activate(_target);
+        }
+    }
+
+    // Add a building to the map
+    public void AddBuilding(Building _building)
+    { 
+        placedBuildings.Add(_building);
+        availableBuildings.Remove(_building);
+        EventHandler.RaiseEvent(EventType.SHOP_CHANGED, 0);
+    }
+
+    // Delete a building from the map
+    public void DeleteBuilding(Building _building)
+    { 
+        placedBuildings.Remove(_building);
+        availableBuildings.Add(_building);
+        EventHandler.RaiseEvent(EventType.SHOP_CHANGED, 0);
+    }
+
+    public Building GetSelectedBuilding() => selectedBuilding;
+
+    public void AddPlacedObject(GameObject _newBuilding) => placedObjects.Add(_newBuilding);
+
+    // Destroy all the gameobjects of the buildings on the map
+    public void DestroyAllPlacedObjects()
+    {
+        foreach (GameObject buildingObject in placedObjects)
+        { 
+            GameObject.Destroy(buildingObject);
+        }
+    }
+
+    public void OnDestroy()
+    {
+        DestroyAllPlacedObjects();
+        shopUIManager.OnDestroy();
+    }
 
     #region Initialization
 
@@ -38,54 +96,4 @@ public class BuildingManager
     }
 
     #endregion
-
-    public void OnAwake()
-    {
-        Initialize();
-    }
-
-    public void OnStart(Vector2Int _levelSize) => builder.levelSize = _levelSize;
-
-    public void OnUpdate()
-    {
-        shopUIManager.CheckShopButtons();
-        builder.OnUpdate();
-    }
-
-    public void BuildingsAttack(IEnemy _target)
-    {
-        foreach (Building building in placedBuildings)
-        { 
-            building.attackBehaviour.Activate(_target);
-        }
-    }
-
-    public Building GetSelectedBuilding() => selectedBuilding;
-
-    public void AddBuilding(Building _building)
-    { 
-        placedBuildings.Add(_building);
-        availableBuildings.Remove(_building);
-        shopUIManager.UpdateShopUI();
-    }
-
-    public void DeleteBuilding(Building _building)
-    { 
-        placedBuildings.Remove(_building);
-        availableBuildings.Add(_building);
-        shopUIManager.UpdateShopUI();
-    }
-
-    public void AddPlacedObject(GameObject _newBuilding)
-    { 
-        placedObjects.Add(_newBuilding);
-    }
-
-    public void DestroyAllPlacedObjects()
-    {
-        foreach (GameObject buildingObject in placedObjects)
-        { 
-            GameObject.Destroy(buildingObject);
-        }
-    }
 }

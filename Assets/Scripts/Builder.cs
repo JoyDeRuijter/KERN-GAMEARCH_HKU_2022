@@ -41,6 +41,7 @@ public class Builder
         }
     }
 
+    // Starts the building process of a building
     public void BuildBuilding()
     {
         if (isBuilding)
@@ -66,6 +67,7 @@ public class Builder
         return mousePosition;
     }
 
+    // Instantiates a selectionblock that serves as a visualaid for the player, to see what tile they are currently selecting while hovering
     private void PlacementSelectionBlocks()
     {
         if (block == null)
@@ -75,6 +77,8 @@ public class Builder
         }
     }
 
+    // Runs when the player has started building and clicked on a location on the map
+    // Checks if the clicked-position is valid and if so, builds the building
     private void OnPlacementConfirmed()
     {
         Vector3Int selectedPosition = new Vector3Int((int)block.transform.position.x, 0, (int)block.transform.position.z);
@@ -95,14 +99,15 @@ public class Builder
             latestBuiltBuilding = selectedBuilding;
             latestPaidPrice = selectedBuilding.price;
             selectedBuilding.attackBehaviour.towerTransform = newBuilding.transform;
-            manager.amountOfCoins -= selectedBuilding.price;
-            manager.SetCoinCounter();
+            EventHandler.RaiseEvent(EventType.COINS_CHANGED, manager.amountOfCoins -= selectedBuilding.price);
             GameObject.Destroy(block);
             selectedBuilding = null;
         }
         isBuilding = false;
     }
 
+    // Makes sure the current selection block moves with the position of the mousepointer
+    // Also changes it's material (red or green) to indicate the validity of the selected tile position
     private void MovePlacementSelectionBlocks(GameObject _block)
     {
         if ((int)mousePosition.x < levelSize.y && (int)mousePosition.x >= 0 && (int)mousePosition.z < levelSize.x && (int)mousePosition.z >= 0)

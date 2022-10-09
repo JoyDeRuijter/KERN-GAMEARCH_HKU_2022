@@ -13,8 +13,7 @@ public class UndoCommand : ICommand
         if (builder.latestBuiltBuilding != null)
         {
             GameObject.Destroy(builder.latestInstantiatedBuilding);
-            Manager.Instance.amountOfCoins += builder.latestPaidPrice;
-            Manager.Instance.SetCoinCounter();
+            EventHandler.RaiseEvent(EventType.COINS_CHANGED, Manager.Instance.amountOfCoins += builder.latestPaidPrice);
             Manager.Instance.buildingManager.DeleteBuilding(builder.latestBuiltBuilding);
         }
         else

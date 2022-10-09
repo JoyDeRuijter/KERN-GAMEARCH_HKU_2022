@@ -12,6 +12,11 @@ public class ShopUIManager
     private List<Button> currentShopItemButtons = new List<Button>();
     private BuildingManager buildingManager;
 
+    public void OnAwake()
+    {
+        EventHandler.Subscribe(EventType.SHOP_CHANGED, UpdateShopUI);
+    }
+
     public ShopUIManager(BuildingManager _buildingManager)
     {
         buildingManager = _buildingManager;
@@ -22,10 +27,10 @@ public class ShopUIManager
         shopItemParent = GameObject.Find("ItemParent").transform;
         shopItemPrefab = Resources.Load("Item", typeof(GameObject)) as GameObject;
 
-        UpdateShopUI();
+        EventHandler.RaiseEvent(EventType.SHOP_CHANGED, 0);
     }
 
-    public void UpdateShopUI()
+    public void UpdateShopUI(int _value)
     {
         foreach (GameObject shopItem in currentShopItems)
         {
@@ -54,5 +59,10 @@ public class ShopUIManager
     private void OnShopSelection(string _buttonName)
     {
         buildingManager.selectedBuilding = buildingManager.availableBuildings.Find(x => x.name == _buttonName);
+    }
+
+    public void OnDestroy()
+    {
+        EventHandler.Unsubscribe(EventType.SHOP_CHANGED, UpdateShopUI);
     }
 }

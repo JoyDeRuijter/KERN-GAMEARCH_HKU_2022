@@ -54,6 +54,7 @@ public class Manager : MonoBehaviour
         if(Instance != null && Instance != this) Destroy(this);
         else Instance = this;
 
+        EventHandler.Subscribe(EventType.COINS_CHANGED, UpdateCoinCounter);
         buildingManager.OnAwake();
         keyBinder = new KeyBinder(buildingManager, inputHandler, buildKey, undoKey);
         amountOfCoins = startCoins;
@@ -65,7 +66,7 @@ public class Manager : MonoBehaviour
 
         level = generator.Generate(levelPath);
         SetCameraPosition();
-        SetCoinCounter();
+        EventHandler.RaiseEvent(EventType.COINS_CHANGED, amountOfCoins);
 
         buildingManager.OnStart(generator.levelSize);
         enemyManager.OnStart();
@@ -79,13 +80,20 @@ public class Manager : MonoBehaviour
         enemyManager.OnUpdate();
     }
 
+    private void OnDestroy()
+    {
+        EventHandler.Unsubscribe(EventType.COINS_CHANGED, UpdateCoinCounter);
+        buildingManager.OnDestroy();
+    }
+
     private void SetCameraPosition()
     {
         mainCamera.position = new Vector3(generator.levelSize.y / 2, mainCamera.position.y, generator.levelSize.x / 2 + 1);
     }
 
-    public void SetCoinCounter()
+    public void UpdateCoinCounter(int _value)
     {
+        amountOfCoins = _value;
         coinCounter.GetComponentInChildren<TMP_Text>().text = $"€{amountOfCoins},-";
     }
 

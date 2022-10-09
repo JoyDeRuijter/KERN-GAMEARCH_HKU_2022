@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class SchaarAttackBehaviour : BaseAttackBehaviour
 {
-    new public float damage = 10;
-    new public float fireRate = 4;
+    public float damage = 7;
+    public float fireRate = 4;
 
-    public override void SpawnParticles()
+    public override void Activate(IEnemy _target)
     {
-        GameObject particleEffect = Resources.Load<GameObject>("ParticleEffect");
-        GameObject spawnedEffect = Object.Instantiate(particleEffect, towerTransform);
-        Object.Destroy(spawnedEffect, 2f);
+        Attack(_target,damage,fireRate);
+        SpawnParticles();
     }
 }

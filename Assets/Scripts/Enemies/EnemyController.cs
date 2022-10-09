@@ -21,6 +21,8 @@ public class EnemyController : IEnemy
 
     private List<Vector3Int> waypoints = new List<Vector3Int>();
     private int waypointIndex = 0;
+    
+    private float attackTimeLeft = 1f;
 
     public EnemyController(Vector3 _startPos, List<Vector3Int> _waypoints, float _moveSpeed, EnemyManager _manager)
     {
@@ -83,19 +85,17 @@ public class EnemyController : IEnemy
         Manager.Instance.SetCoinCounter();
     }
 
-    float timeLeft = 1f;
-    public void AttackBase(float _dmg)
+    private void AttackBase(float _dmg)
     {
-        timeLeft -= Time.deltaTime;
-        if(timeLeft <= 0)
+        attackTimeLeft -= Time.deltaTime;
+        if(attackTimeLeft <= 0)
         {
             Manager.Instance.health -= _dmg;
-            Debug.Log("Do Damage to Base");
-            timeLeft = 1f;
+            attackTimeLeft = 1f;
         }
     }
 
-    public void MoveTowardsTarget(Vector3Int _target)
+    private void MoveTowardsTarget(Vector3Int _target)
     {
 
         position = Vector3.MoveTowards(position,nextPosition,moveSpeed*Time.deltaTime);

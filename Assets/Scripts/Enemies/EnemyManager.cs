@@ -20,7 +20,7 @@ public class EnemyManager
     private int enemyAmount;
 
     private EnemyDecorator startDecorator = new EnemyDecorator(20,5);
-    public EnemyDecorator modifier = new EnemyDecorator(5,1);
+    private EnemyDecorator modifier = new EnemyDecorator(5,1);
 
     public EnemyManager(int _amount)
     {
@@ -44,19 +44,6 @@ public class EnemyManager
     
     public void OnUpdate()
     {
-
-        if(activePool.Count == 0)
-        {
-            if(Input.GetKeyDown(KeyCode.F))
-            {
-                Debug.Log("Started");
-                foreach(EnemyController e in inactivePool)
-                {
-                    activePool.Add(e);
-                }
-                inactivePool.Clear();
-            }
-        }
 
         for(int i = 0; i < activePool.Count; i++)
         {
@@ -83,8 +70,6 @@ public class EnemyManager
 
     public void AddModifier(IEnemy _e)
     {
-        // int index = inactivePool.IndexOf(_e);
-        // inactivePool[index] = modifier.Decorate(inactivePool[index]);
         Debug.Log("Added modifier");
         _e = modifier.Decorate(_e);
     }

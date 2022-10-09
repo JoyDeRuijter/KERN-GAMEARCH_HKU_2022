@@ -32,13 +32,4 @@ public class Tile
         }
     }
 
-    private void OnStart()
-    {
-        
-    }
-    private void OnUpdate()
-    {
-
-    }
-
 }

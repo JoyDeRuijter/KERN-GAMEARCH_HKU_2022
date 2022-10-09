@@ -31,5 +31,8 @@ public class Tile
             GameObject.Instantiate(Manager.Instance.wallPrefab,position,Quaternion.identity);
         }
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9501390ad82c27c63bf717acaa819f22e365dba7
 }

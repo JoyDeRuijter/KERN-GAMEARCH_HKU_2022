@@ -6,7 +6,7 @@ public class StartState : BaseState
 {
     public override void OnEnter()
     {
-        Debug.Log("Main Menu");
+        //Debug.Log("Main Menu");
         Manager.Instance.startMenu.SetActive(true);
     }
     public override void OnExit()

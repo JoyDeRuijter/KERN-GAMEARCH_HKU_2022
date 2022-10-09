@@ -18,6 +18,7 @@ public class GameOverState : BaseState
             EnemyController e = (EnemyController)Manager.Instance.enemyManager.activePool[i];
             e.Die();
         }
+        Manager.Instance.amountOfCoins = Manager.Instance.startCoins;
     }
 
     public override void OnUpdate()

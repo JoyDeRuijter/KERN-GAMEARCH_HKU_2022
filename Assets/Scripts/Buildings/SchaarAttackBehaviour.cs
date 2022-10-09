@@ -7,14 +7,9 @@ public class SchaarAttackBehaviour : BaseAttackBehaviour
     new public float damage = 10;
     new public float fireRate = 4;
 
-    public SchaarAttackBehaviour(Transform _towerTransform)
-    {
-        towerTransform = _towerTransform;
-    }
-
     public override void SpawnParticles()
     {
-        GameObject particleEffect = Resources.Load<GameObject>("Prefabs/ParticleEffect");
+        GameObject particleEffect = Resources.Load<GameObject>("ParticleEffect");
         GameObject spawnedEffect = Object.Instantiate(particleEffect, towerTransform);
         Object.Destroy(spawnedEffect, 2f);
     }

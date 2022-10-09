@@ -18,6 +18,25 @@ public class BuildingManager
     private List<GameObject> currentShopItems = new List<GameObject>();
     private List<Button> currentShopItemButtons = new List<Button>();
 
+    #region Initialization
+
+    private void InitializeBuilder()
+    {
+        builder = new Builder(this);
+    }
+
+    // Create all the different buildings here and add them to the available buildings list
+    private void InitializeBuildings()
+    {
+        availableBuildings.Add(new Building("Test1", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), new PapierAttackBehaviour(), 500));
+        availableBuildings.Add(new Building("Test2", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), new SchaarAttackBehaviour(), 750));
+        availableBuildings.Add(new Building("Test3", (Resources.Load("TestTower3", typeof(GameObject)) as GameObject), (Resources.Load("Icon3", typeof(Texture)) as Texture), new SteenAttackBehaviour(), 200));
+        availableBuildings.Add(new Building("Test4", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), new PapierAttackBehaviour(), 250));
+        availableBuildings.Add(new Building("Test5", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), new SchaarAttackBehaviour(), 100));
+        availableBuildings.Add(new Building("Test6", (Resources.Load("TestTower3", typeof(GameObject)) as GameObject), (Resources.Load("Icon3", typeof(Texture)) as Texture), new SteenAttackBehaviour(), 350));
+    }
+    #endregion
+
     public void OnAwake()
     {
         InitializeBuilder();
@@ -31,31 +50,34 @@ public class BuildingManager
 
     public void OnUpdate()
     {
-        //UpdateShopUI();
         CheckShopButtons();
         builder.OnUpdate();
     }
 
-    #region Initialization
-    private void InitializeBuilder()
-    {
-        builder = new Builder(this);
+    public void BuildingsAttack(EnemyController _target)
+    { 
+        foreach(Building building in placedBuildings)
+            building.attackBehaviour.Attack(_target);
     }
 
-    // Create all the different buildings here and add them to the available buildings list
-    private void InitializeBuildings()
+    public Building GetSelectedBuilding()
     {
-        availableBuildings.Add(new Building("Test1", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), 500));
-        availableBuildings.Add(new Building("Test2", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), 750));
-        availableBuildings.Add(new Building("Test3", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), 200));
-        availableBuildings.Add(new Building("Test4", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), 250));
-        availableBuildings.Add(new Building("Test5", (Resources.Load("TestTower", typeof(GameObject)) as GameObject), (Resources.Load("Icon1", typeof(Texture)) as Texture), 100));
-        availableBuildings.Add(new Building("Test6", (Resources.Load("TestTower2", typeof(GameObject)) as GameObject), (Resources.Load("Icon2", typeof(Texture)) as Texture), 350));
-
-        //foreach (Building b in availableBuildings)
-        //    Debug.Log($"Available building : {b.prefab.name} has size: {b.size.x},{b.size.y} and price: ${b.price}");
+        return selectedBuilding;
     }
-    #endregion
+
+    public void AddBuilding(Building _building)
+    { 
+        placedBuildings.Add(_building);
+        availableBuildings.Remove(_building);
+        UpdateShopUI();
+    }
+
+    public void DeleteBuilding(Building _building)
+    { 
+        placedBuildings.Remove(_building);
+        availableBuildings.Add(_building);
+        UpdateShopUI();
+    }
 
     #region ShopUI
 
@@ -97,22 +119,4 @@ public class BuildingManager
     }
 
     #endregion
-
-    public Building GetSelectedBuilding()
-    {
-        return selectedBuilding;
-    }
-
-    public void DeleteBuilding(Building _building)
-    { 
-        placedBuildings.Remove(_building);
-        availableBuildings.Add(_building);
-    }
-
-    public void AddBuilding(Building _building)
-    { 
-        placedBuildings.Add(_building);
-        availableBuildings.Remove(_building);
-        UpdateShopUI();
-    }
 }

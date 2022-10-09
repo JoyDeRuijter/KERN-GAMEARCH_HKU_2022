@@ -82,6 +82,7 @@ public class EnemyController : IEnemy
             enemyManager.AddModifier(this);
         }
         Manager.Instance.amountOfCoins += 30;
+        Manager.Instance.SetCoinCounter();
     }
 
     private void AttackBase(float _dmg)

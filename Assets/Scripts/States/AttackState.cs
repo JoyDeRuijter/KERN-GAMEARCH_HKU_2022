@@ -8,7 +8,7 @@ public class AttackState : BaseState
     {
         Debug.Log("Attack Phase Started");
         Manager.Instance.enemyManager.StartAttack();
-        Debug.Log(Manager.Instance.enemyManager.activePool.Count);
+        //Debug.Log(Manager.Instance.enemyManager.activePool.Count);
     }
 
     public override void OnExit()
@@ -17,7 +17,7 @@ public class AttackState : BaseState
 
     public override void OnUpdate()
     {
-        if(Manager.Instance.health == 0){
+        if(Manager.Instance.health <= 0){
             owner.SwitchState(typeof(GameOverState));
         }
 
@@ -25,5 +25,7 @@ public class AttackState : BaseState
         {
             owner.SwitchState(typeof(BuildingState));
         }
+
+        Manager.Instance.buildingManager.BuildingsAttack((EnemyController)Manager.Instance.enemyManager.activePool[0]); 
     }
 }

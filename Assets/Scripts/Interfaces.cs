@@ -18,4 +18,5 @@ public interface IEnemy
 {
     float Health { get; set; }
     float Damage { get; set; }
+    void TakeDamage(float _dmg);
 }

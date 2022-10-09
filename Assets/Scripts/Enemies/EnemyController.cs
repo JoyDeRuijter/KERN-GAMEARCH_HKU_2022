@@ -68,7 +68,7 @@ public class EnemyController : IEnemy
         }
     }
 
-    private void Die()
+    public void Die()
     {
         waypointIndex = 0;
         position = startPosition;
@@ -79,6 +79,7 @@ public class EnemyController : IEnemy
         {
             enemyManager.AddModifier(this);
         }
+        Manager.Instance.amountOfCoins += 30;
     }
 
     float timeLeft = 1f;

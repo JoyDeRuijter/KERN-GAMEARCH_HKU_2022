@@ -12,6 +12,10 @@ public class Builder
     public bool isBuilding;
     private Vector3 mousePosition;
 
+    public GameObject latestInstantiatedBuilding;
+    public Building latestBuiltBuilding;
+    public int latestPaidPrice;
+
     //Selection process
     private GameObject selectionBlock;
     private Material validMat, invalidMat;
@@ -80,6 +84,9 @@ public class Builder
             manager.level[selectedPosition].isOccupied = true;
             GameObject newBuilding = GameObject.Instantiate(selectedBuilding.prefab);
             newBuilding.transform.position = new Vector3(selectedPosition.x, -0.5f, selectedPosition.z);
+            latestInstantiatedBuilding = newBuilding;
+            latestBuiltBuilding = selectedBuilding;
+            latestPaidPrice = selectedBuilding.price;
             selectedBuilding.attackBehaviour.towerTransform = newBuilding.transform;
             manager.amountOfCoins -= selectedBuilding.price;
             manager.SetCoinCounter();

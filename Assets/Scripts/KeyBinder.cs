@@ -21,6 +21,6 @@ public class KeyBinder
     private void BindAllKeys()
     {
         inputHandler.BindInput(buildKey, new BuildCommand(builder));
-        inputHandler.BindInput(undoKey, new UndoCommand());
+        inputHandler.BindInput(undoKey, new UndoCommand(builder));
     }
 }

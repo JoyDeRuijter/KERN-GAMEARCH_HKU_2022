@@ -10,15 +10,15 @@ public class Building
     public GameObject prefab;
     public Vector2Int size;
     public Texture buildingIcon;
+    private Vector3Int position;
 
     // IAttackBehavior
 
-    public Building(string _name, GameObject _prefab, Texture _buildingIcon, Vector2Int _size, int _price)
+    public Building(string _name, GameObject _prefab, Texture _buildingIcon, int _price)
     { 
         name = _name;
         prefab = _prefab;
         buildingIcon = _buildingIcon;
-        size = _size;
         price = _price;
     }
 
@@ -30,5 +30,10 @@ public class Building
     public void GetDestroyed()
     { 
     
+    }
+
+    public void SetPosition(Vector3Int _position)
+    { 
+        position = _position;
     }
 }

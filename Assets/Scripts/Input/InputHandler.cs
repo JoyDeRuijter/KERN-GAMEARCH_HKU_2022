@@ -11,7 +11,9 @@ public class InputHandler
     {
         foreach (KeyCommand kc in keyCommands)
             if (Input.GetKeyDown(kc.key))
+            { 
                 kc.command.Execute();
+            }
     }
 
     // Create a new keycommand by binding a given keycode and command together
@@ -29,6 +31,8 @@ public class InputHandler
     {
         foreach (KeyCommand kc in keyCommands)
             if (kc.key == _keyCode)
+            { 
                 keyCommands.Remove(kc);
+            }
     }
 }

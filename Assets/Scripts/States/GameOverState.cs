@@ -19,6 +19,7 @@ public class GameOverState : BaseState
             e.Die();
         }
         Manager.Instance.amountOfCoins = Manager.Instance.startCoins;
+        Manager.Instance.buildingManager.DestroyAllPlacedObjects();
     }
 
     public override void OnUpdate()
